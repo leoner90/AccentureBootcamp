@@ -1,10 +1,11 @@
 /backend/node_modules
 /backend/.gitignore
-/backend/package.lock
+/backend/package-lock.json
+       
 
 
-/forntend/node_modules
-/forntend/dist
+frontend/node_modules/
+frontend/package-lock.json
 
 
 # local env files
