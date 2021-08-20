@@ -1,0 +1,27 @@
+/backend/node_modules
+/backend/.gitignore
+/backend/package.lock
+
+
+/forntend/node_modules
+/forntend/dist
+
+
+# local env files
+/forntend/.env.local
+/forntend/.env.*.local
+
+# Log files
+/forntend/npm-debug.log*
+/forntend/yarn-debug.log*
+/forntend/yarn-error.log*
+/forntend/pnpm-debug.log*
+
+# Editor directories and files
+/forntend/.idea
+/forntend/.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
