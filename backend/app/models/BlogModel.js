@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const db = require("../../config/mysql-connection");
 const jwt = require('jsonwebtoken');
 
-
 class BlogModel {
   //DB CONNECT
   constructor() {
@@ -63,9 +62,6 @@ class BlogModel {
   
   //Update existing blogs
   async SaveBlogModel(req) {
-    
-
-
     let Userid = req.session.userId;
     let postToDelete = await this.__connection.getByKey('id_blogs' , req.body.id );
     if(postToDelete[0].Creator_Id == Userid) {
@@ -73,7 +69,6 @@ class BlogModel {
     } else {
       return false;
     } 
-    
   }
 }
 
