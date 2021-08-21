@@ -1,6 +1,6 @@
 <template>
   <Header />
-  <router-view class="page-view"/>
+  <router-view class="page-view" ref=body />
   <div class="clear"></div>
   <Footer />
 </template>

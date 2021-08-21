@@ -11,9 +11,7 @@
 
 <script>
 //Server Side Functions Import
-import IsUserLogedIn from '@/ServerSideFunctions/IsUserLogedInFun.vue';
-import GetBlogById from '@/ServerSideFunctions/GetBlogByIdFun.vue';
-import saveBlogChanges from '@/ServerSideFunctions/SaveBlogChangesFun.vue';
+import ServerFunctions from '@/ServerSideFunctions/ServerFunctions.vue';
 
 export default {
   data() { 
@@ -28,7 +26,8 @@ export default {
   methods:{
     //CHECKS IS USER LOGED IN ON MOUNTED , IF NOT - REDIRECTS TO MAIN PAGE
     async IsUserLogedIn() {
-      this.isLoged = await IsUserLogedIn.IsLogedIn();
+      let obj = {whatToCall: 'IslogedIn' }
+      this.isLoged = await ServerFunctions.serverCall(obj);
       if (!this.isLoged) {
         await this.$router.push('/');
       } else {
@@ -38,8 +37,8 @@ export default {
 
     //GET BLOG FOR CHANGE BY ID(FROM QUERY)
     async getBlogForEditing() {
-        let id = this.$route.query.id;
-        let result = await GetBlogById.getBlog(id);
+        let obj = {whatToCall: 'getBlogByID', id : this.$route.query.id }
+        let result = await ServerFunctions.serverCall(obj);
         this.BlogHeader = result[0].BlogHeader;
         this.BlogBody = result[0].BlogBody;
         this.id = result[0].id_blogs;
@@ -47,8 +46,9 @@ export default {
 
     //MAKES OBJECT FROM INPUT VALUES AND SAVE THEM INTO DB USING SERVER SIDE FUNCTIONS
     async saveChanges(id) {
-      this.obj = {BlogHeader: this.BlogHeader  , BlogBody: this.BlogBody, id: id}
-      let result = await saveBlogChanges.save(this.obj);
+      let obj = {whatToCall: 'saveBlog' , BlogHeader: this.BlogHeader  , BlogBody: this.BlogBody, id: id}
+      let result = await ServerFunctions.serverCall(obj);
+
       if (result){
         await this.$router.push('/UserBlogs');
       } else {

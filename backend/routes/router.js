@@ -10,6 +10,14 @@ const BlogCtrl = new BlogController();
 // init express router
 const router = express.Router();
 
+//file uploader
+const fileUpload = require('express-fileupload');
+const app = express();
+app.use(fileUpload({
+  useTempFiles : true,
+  tempFileDir : '/tmp/'
+}));
+
 // Get All BLOGS
 router.post('/getAllBlogs', async (req, res) => {
    let result =  await BlogCtrl.GetBlogsController(req, res);
@@ -33,12 +41,6 @@ router.post('/saveBlog', async (req, res) => {
    }
 })
 
-// GET LAST 3 BLOGS FOR HOME PAGE
-router.get('/getLastBlogs', async (req, res) => {
-   let result =  await BlogCtrl.GetLastBlogsController(req, res);
-   res.status(200).json(result)
-})
- 
 // DELETE BLOD BY ID
 router.post("/deleteBlog", async function (req, res) {
    let UserLogedIn = await AuthorisationCtrl.IsUserLogedInController(req, res);
@@ -70,6 +72,10 @@ router.post("/IslogedIn", async function  (req, res) {
 
 //ADD NEW BLOG
 router.post("/AddBlog", async function  (req, res) {
+   // console.log(req)
+   // console.log(req.body.files)
+   // console.log(req.body);
+   // console.log(req.body.img);
    let UserLogedIn = await AuthorisationCtrl.IsUserLogedInController(req, res);
    if(UserLogedIn){
       let result = await BlogCtrl.AddNewBlogController(req, res);

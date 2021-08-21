@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const db = require("../../config/mysql-connection");
 const jwt = require('jsonwebtoken');
 
+
 class BlogModel {
   //DB CONNECT
   constructor() {
@@ -29,17 +30,18 @@ class BlogModel {
 
   //Get All blogs  if userPosts == true , then return only this user posts using his ID
   async GetBlogsModel(req){
+    let PostLimit = req.body.limit;
     if(req.body.UserPosts){
       let id = req.session.userId;
       return await this.__connection.getByKey('Creator_Id', id,);
     } else {
-      return await this.__connection.getAll();
+      return await this.__connection.getAll(PostLimit);
     } 
   }
 
   // GET LAST BLOG FROM DB FOR HOME PAGE
   async GetLastBlogsModel(req) {
-    let PostLimit = 3;
+    let PostLimit = req.body.limit;
     return await this.__connection.getAll(PostLimit)
   }
 
@@ -61,6 +63,9 @@ class BlogModel {
   
   //Update existing blogs
   async SaveBlogModel(req) {
+    
+
+
     let Userid = req.session.userId;
     let postToDelete = await this.__connection.getByKey('id_blogs' , req.body.id );
     if(postToDelete[0].Creator_Id == Userid) {

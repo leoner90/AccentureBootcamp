@@ -55,8 +55,8 @@
 
 <script>
 //SERVER SIDE FUNCTIONS IMPORT
-import LogOutComponent from '@/ServerSideFunctions/LogOutFun.vue';
-import IsUserLogedIn from '@/ServerSideFunctions/IsUserLogedInFun.vue';
+import ServerFunctions from '@/ServerSideFunctions/ServerFunctions.vue';
+
 
 export default { 
   name: 'Header',
@@ -70,12 +70,14 @@ export default {
   methods:{
     //CHECKS IS USER LOGED IN ON MOUNTED , IF NOT - REDIRECTS TO MAIN PAGE
     async IsUserLogedIn() {
-        this.isLoged = await IsUserLogedIn.IsLogedIn();
+      let obj = {whatToCall: 'IslogedIn' }
+      this.isLoged = await ServerFunctions.serverCall(obj);
     },
     //LOG OUT USER ON BTN CLICK USING SERVER SIDE FUNCTION
     async logOut() {
       location.reload();
-      await LogOutComponent.LogOut();
+      let obj = {whatToCall: 'logOut' }
+      await ServerFunctions.serverCall(obj);
     },
   },
   //on mount function

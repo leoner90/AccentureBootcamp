@@ -10,8 +10,6 @@ const Router = require("./routes/router.js");
 // use express json
 app.use(express.json())
 
-const path = require("path");
-
 //SESSION LIBRARIES AND SETUPS
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');

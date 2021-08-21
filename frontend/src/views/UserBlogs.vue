@@ -19,9 +19,7 @@
 
 <script>
 //SERVER SIDE FUNCTIONS IMPORT
-import GetAllBlogsFun from '@/ServerSideFunctions/GetAllBlogsFun.vue';
-import IsUserLogedIn from '@/ServerSideFunctions/IsUserLogedInFun.vue';
-import deleteBlog from '@/ServerSideFunctions/DeleteBlogFun.vue';
+import ServerFunctions from '@/ServerSideFunctions/ServerFunctions.vue'; 
 
 export default {
 data() {
@@ -32,24 +30,26 @@ data() {
   methods: {
     //Get All Blogs with current user id , true indicates that it's specified user blogs , id is provided through sessions (REDO this)
     async GetAllBlogsFun() {
-      this.blogs = await GetAllBlogsFun.getdata(true);
+      let obj = {whatToCall: 'getAllBlogs' , UserPosts: true} ;
+      this.blogs = await ServerFunctions.serverCall(obj);
     },
     //CHECKS IS USER LOGED IN ON MOUNTED , IF NOT - REDIRECTS TO MAIN PAGE
     async IsUserLogedIn() {
-      this.isLoged = await IsUserLogedIn.IsLogedIn();
-      if (!this.isLoged) {
+      let obj = {whatToCall: 'IslogedIn' }
+      let isLoged = await ServerFunctions.serverCall(obj);
+      if (!isLoged) {
         await this.$router.push('/');
       }
     },
     //Delte blog using server side function and provided id
     async blogDelete(id) {
-      let result = await deleteBlog.delete({id: id})
+      let obj = {whatToCall: 'deleteBlog', id: id }
+      let result = await ServerFunctions.serverCall(obj);
       if (result){
         location.reload();
       } else {
         alert('You Have No Permisions');
       }
-      
     }
   },
   //on mount function

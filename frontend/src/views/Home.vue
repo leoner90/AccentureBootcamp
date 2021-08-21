@@ -7,7 +7,7 @@
 
 <script>
 //Server Side Functions Import
-import getLastBlogs from '@/ServerSideFunctions/GetLastBlogsFun.vue';
+import ServerFunctions from '@/ServerSideFunctions/ServerFunctions.vue';
 //COMPONENTS IMPORT
 import Article  from '@/components/blogComponent.vue';
 
@@ -21,7 +21,8 @@ data() {
   methods: { 
     //Get last three posts from db on mounted event
     async getLastBlogsFun() {
-      this.blogs = await getLastBlogs.getLastBlogs();
+      let data = {limit: 3, whatToCall: 'getAllBlogs'} ;
+      this.blogs = await ServerFunctions.serverCall(data);
     },
   },
   

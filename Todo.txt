@@ -4,20 +4,20 @@
     - BACKEND ROUTER JS SEND BACK CORRECT STATUS 
     - mvc structure => controller -> repository -> memoryStorage(work with mysql only) -> model
     - delete api key from db on logout
+    - ADD blog creatition Time
 
 #FRONTEND
     - ALL FRONTEND VIEW PAGES TO COMPONENT
     - JS/HTML VALIDATOR FOR FORMS + -error return from server
     - 404 page for edit post page if incorect id is inserted
     - edit post page -(store id in global store or vue)
+    - vue heavy data load to "computed"?
+    - global var for user login state , use it in router,  using vuex state
+    open blog to read on click
 
 #BACKEND & FRONTEND
     - img upload/change
     - limit of returning and load more on scroll blogs -can be used vuex  ?    -vuex
-    - vue heavy data load to "computed"?
-    - global var for user login state , use it in router,  using vuex state 
-    - ADD blog creatition Time
-
  #css
     - Flex grid
     - Design for every page

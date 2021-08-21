@@ -23,8 +23,8 @@
 
 <script>
 //SERVER SIDE FUNCTIONS IMPORT
-import RegistrationFun from '@/ServerSideFunctions/RegistrationFun.vue'
-import IsUserLogedIn from '@/ServerSideFunctions/IsUserLogedInFun.vue';
+import ServerFunctions from '@/ServerSideFunctions/ServerFunctions.vue';
+
 
 export default {
 data() {
@@ -39,8 +39,8 @@ data() {
   methods: {
     //Register a user , if no error reloads page (redirects to home page) , otherwise displays errors.
     async submit(){    
-      this.obj = {login: this.login  , email: this.email, password: this.password }
-      let result = await RegistrationFun.Registration(this.obj);
+      let obj = {whatToCall: 'reg' , login: this.login  , email: this.email, password: this.password };
+      let result = await ServerFunctions.serverCall(obj);
       if (result == true) {
         location.reload();
       } else {
@@ -49,7 +49,8 @@ data() {
     },
     //Cheack is user loged in on mounted , if so redirects to the main page
     async IsUserLogedIn() {
-      let isLoged = await IsUserLogedIn.IsLogedIn();
+      let obj = {whatToCall: 'IslogedIn' }
+      let isLoged = await ServerFunctions.serverCall(obj);
       if (isLoged) {
         await this.$router.push('/');
       }

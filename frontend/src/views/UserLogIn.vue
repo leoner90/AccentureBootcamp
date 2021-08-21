@@ -20,8 +20,7 @@
 
 <script>
 //SERVER SIDE FUNCTIONS IMPORT
-import IsUserLogedIn from '@/ServerSideFunctions/IsUserLogedInFun.vue';
-import LoginFun from '@/ServerSideFunctions/LoginFun.vue';
+import ServerFunctions from '@/ServerSideFunctions/ServerFunctions.vue';
 
 export default {
 data() {
@@ -35,8 +34,8 @@ data() {
   methods: {
     //Logins user , if no error redirects to home page , otherwise displays them.
     async submit(){    
-      this.obj = {login: this.login, password: this.password };
-      let result = await LoginFun.LogIn(this.obj);
+      let obj = {whatToCall: 'login', login: this.login, password: this.password };
+      let result = await ServerFunctions.serverCall(obj);
       if (result == true) {
         location.reload();
       } else {
@@ -45,7 +44,8 @@ data() {
     },
     //Cheack is user loged in on mounted , if so redirects to the main page
     async IsUserLogedIn() {
-      let isLoged = await IsUserLogedIn.IsLogedIn();
+      let obj = {whatToCall: 'IslogedIn' }
+      let isLoged = await ServerFunctions.serverCall(obj);
       if (isLoged) {
         this.$router.push('/');
       }
