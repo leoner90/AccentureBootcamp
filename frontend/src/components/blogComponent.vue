@@ -1,6 +1,7 @@
 <!-- Get object as a props and displays it -->
 <template>
   <div class="blogPage" v-for="items of item" :key="items.message" >
+    <img :src="items.img" style="width: 100% ; height : 200px;" />
     <h4 class="blog-header"> {{items.BlogHeader}}</h4>
     <div class="blog-body">{{items.BlogBody}}</div>
     <div class="blog-userName">Author:{{items.login}}</div>

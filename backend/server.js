@@ -10,6 +10,9 @@ const Router = require("./routes/router.js");
 // use express json
 app.use(express.json())
 
+const fileUpload = require('express-fileupload'); 
+app.use(fileUpload());
+
 //SESSION LIBRARIES AND SETUPS
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');

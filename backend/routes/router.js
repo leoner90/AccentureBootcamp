@@ -11,12 +11,15 @@ const BlogCtrl = new BlogController();
 const router = express.Router();
 
 //file uploader
-const fileUpload = require('express-fileupload');
-const app = express();
-app.use(fileUpload({
-  useTempFiles : true,
-  tempFileDir : '/tmp/'
-}));
+router.post('/upload', (req, res) => {
+   const myFile = req.files.file;
+   myFile.mv(`${__dirname}/img/${myFile.name}`, function (err) {
+      if (err) {
+          console.log(err)
+          return res.status(500).send({ msg: "Error occured" });
+      }
+  });
+})
 
 // Get All BLOGS
 router.post('/getAllBlogs', async (req, res) => {
@@ -72,13 +75,12 @@ router.post("/IslogedIn", async function  (req, res) {
 
 //ADD NEW BLOG
 router.post("/AddBlog", async function  (req, res) {
-   // console.log(req)
-   // console.log(req.body.files)
-   // console.log(req.body);
-   // console.log(req.body.img);
+
+   let imgFile = req.files.file;
+   let request = JSON.parse(req.body.file2);
    let UserLogedIn = await AuthorisationCtrl.IsUserLogedInController(req, res);
    if(UserLogedIn){
-      let result = await BlogCtrl.AddNewBlogController(req, res);
+      let result = await BlogCtrl.AddNewBlogController(req, res , imgFile , request);
       res.status(200).json(result)
    } else {
       //TODO return error

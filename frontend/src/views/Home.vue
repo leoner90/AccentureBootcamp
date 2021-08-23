@@ -22,7 +22,10 @@ data() {
     //Get last three posts from db on mounted event
     async getLastBlogsFun() {
       let data = {limit: 3, whatToCall: 'getAllBlogs'} ;
-      this.blogs = await ServerFunctions.serverCall(data);
+      this.blogs = await ServerFunctions.serverCall(data); 
+      for(let i = 0; i <  this.blogs.length; i++ ) {
+        this.blogs[i].img =  'data:image/png;base64,' + this.blogs[i].img.data;
+      }
     },
   },
   

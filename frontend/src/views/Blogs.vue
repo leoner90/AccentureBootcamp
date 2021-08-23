@@ -23,6 +23,9 @@ data() {
       this.PostLimits = this.PostLimits + 1; 
       let data = {limit: this.PostLimits, whatToCall: 'getAllBlogs'} ;
       this.blogs = await ServerFunctions.serverCall(data);
+      for(let i = 0; i <  this.blogs.length; i++ ) {
+        this.blogs[i].img =  'data:image/png;base64,' + this.blogs[i].img.data;
+      }
     },
     // async OnScrollBlogLoader() {
     //   // console.log(this.$refs.body.scrollHeight)

@@ -10,8 +10,8 @@ class BlogModel {
   }
  
   //__ ADD NEW BLOG TO DB
-  async AddNewBlogModel(req) {
-    let newBlog = req.body;
+  async AddNewBlogModel(req,imgFile, request) {
+    let newBlog = request;
     newBlog.creatorId = req.session.userId;
     //check for errors
     const errors = [];
@@ -20,7 +20,12 @@ class BlogModel {
     }
     // IF NO ERRORS -> ATTEMPT TO SAVE NEW BLOG
     if(errors.length == 0){
-       await this.__connection.createBlog(newBlog);
+      imgFile.mv(`${__dirname}/../../img/${imgFile.name}`, function (err) {
+        if (err) {
+            console.log(err)   
+        }
+      });
+       await this.__connection.createBlog(newBlog,imgFile);
        return ["Success msg"];
     } else {
       return errors;
@@ -34,7 +39,18 @@ class BlogModel {
       let id = req.session.userId;
       return await this.__connection.getByKey('Creator_Id', id,);
     } else {
-      return await this.__connection.getAll(PostLimit);
+      let result = await this.__connection.getAll(PostLimit);
+      let fs = require('fs');
+      
+    
+      
+      for(let i = 0; i < result.length ; i++) {
+        const bitmap = fs.readFileSync(`${__dirname}/../../${result[i].BlogImg}`);
+        const base64 = new Buffer.from(bitmap).toString("base64");
+        let obj = {data: base64}
+        result[i].img = obj;
+      }
+      return result;
     } 
   }
 

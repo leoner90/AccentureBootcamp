@@ -39,9 +39,9 @@ class DbStorage {
   }
 
   //CREATE NEW BLOG
-  async createBlog(newBlogData){
-    const [rows] = await pool.promise().query(`INSERT INTO ${this._table} (	BlogHeader, 	BlogBody, Creator_Id)  
-    VALUES ('${newBlogData.BlogHeader}', '${newBlogData.BlogBody}' , '${newBlogData.creatorId}')`);
+  async createBlog(newBlogData,imgFile){
+    const [rows] = await pool.promise().query(`INSERT INTO ${this._table} (	BlogHeader, 	BlogBody, Creator_Id, BlogImg)  
+    VALUES ('${newBlogData.BlogHeader}', '${newBlogData.BlogBody}' , '${newBlogData.creatorId}' , 'img/${imgFile.name}')`);
     return rows.insertId;
   }
 
