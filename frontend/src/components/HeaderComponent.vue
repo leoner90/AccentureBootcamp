@@ -55,7 +55,7 @@
 
 <script>
 //SERVER SIDE FUNCTIONS IMPORT
-import ServerFunctions from '@/ServerSideFunctions/ServerFunctions.vue';
+ 
 
 
 export default { 
@@ -68,22 +68,18 @@ export default {
     }
   },
   methods:{
-    //CHECKS IS USER LOGED IN ON MOUNTED , IF NOT - REDIRECTS TO MAIN PAGE
-    async IsUserLogedIn() {
-      let obj = {whatToCall: 'IslogedIn' }
-      this.isLoged = await ServerFunctions.serverCall(obj);
-    },
     //LOG OUT USER ON BTN CLICK USING SERVER SIDE FUNCTION
     async logOut() {
-      location.reload();
       let obj = {whatToCall: 'logOut' }
-      await ServerFunctions.serverCall(obj);
+      await this.$store.dispatch("LogOutAction", obj);
+      location.reload();
     },
   },
   //on mount function
-  mounted() {
-    this.IsUserLogedIn();
-  },
+    async mounted(){
+      this.isLoged = this.$store.getters.IslogedInGetter;
+ },
+ 
 }
 </script>
 

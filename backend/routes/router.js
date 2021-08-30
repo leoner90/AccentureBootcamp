@@ -1,5 +1,7 @@
 // // import express
 const express = require("express");
+// init express router
+const router = express.Router();
 
 // //CONTROLLERS
 const Authorisation = require("../app/controllers/AuthorisationController");
@@ -7,16 +9,6 @@ const AuthorisationCtrl = new Authorisation();
 const BlogController = require("../app/controllers/BlogController");
 const BlogCtrl = new BlogController();
 
-// init express router
-const router = express.Router();
-
-//file uploader
-const fileUpload = require('express-fileupload');
-const app = express();
-app.use(fileUpload({
-  useTempFiles : true,
-  tempFileDir : '/tmp/'
-}));
 
 // Get All BLOGS
 router.post('/getAllBlogs', async (req, res) => {
@@ -72,10 +64,6 @@ router.post("/IslogedIn", async function  (req, res) {
 
 //ADD NEW BLOG
 router.post("/AddBlog", async function  (req, res) {
-   // console.log(req)
-   // console.log(req.body.files)
-   // console.log(req.body);
-   // console.log(req.body.img);
    let UserLogedIn = await AuthorisationCtrl.IsUserLogedInController(req, res);
    if(UserLogedIn){
       let result = await BlogCtrl.AddNewBlogController(req, res);
@@ -88,7 +76,7 @@ router.post("/AddBlog", async function  (req, res) {
 //LOG OUT A USER
  router.post("/logOut", async function  (req, res) { 
    let result = await AuthorisationCtrl.logOutController(req, res);
-   res.status(200)
+   res.status(200).json(result);
  })
 
 module.exports = router;

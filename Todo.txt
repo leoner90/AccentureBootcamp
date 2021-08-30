@@ -1,28 +1,34 @@
-#BACKEND
-    - mysql rewrite update/create sql using prepared statment , to leave only one sql
-    - MYSQL special simbols escape in blog adding/changing
-    - BACKEND ROUTER JS SEND BACK CORRECT STATUS 
-    - mvc structure => controller -> repository -> memoryStorage(work with mysql only) -> model
-    - delete api key from db on logout
-    - ADD blog creatition Time
+ADD PAGE
+USER BLOGS PAGE
+EDIT PAGE
+Header
 
-#FRONTEND
-    - ALL FRONTEND VIEW PAGES TO COMPONENT
-    - JS/HTML VALIDATOR FOR FORMS + -error return from server
-    - 404 page for edit post page if incorect id is inserted
-    - edit post page -(store id in global store or vue)
-    - vue heavy data load to "computed"?
-    - global var for user login state , use it in router,  using vuex state
-    open blog to read on click
 
-#BACKEND & FRONTEND
-    - img upload/change
-    - limit of returning and load more on scroll blogs -can be used vuex  ?    -vuex
+
+
+
+
  #css
+    ::v-deep 
+    - menu fixed
     - Flex grid
     - Design for every page
-    - Responsive design
+save date as 08.29.2021
 
-#other
-    - migration script for mysql
-    - ReadmMe + comments
+# FINITO 2d
+ - BACKEND FINITO ROUTER JS SEND BACK CORRECT STATUS and result + ALL FILE CLEAN UP +  mvc structure (store file to db con)
+ - FRONTEND ALL FUN/file/names/ CHECK ETC redo single state from blog - router before each in case id logeed in    - code cleanup one fun for last post load
+ - ReadmMe + comments
+ - no data inside component!
+
+#bags
+ - bag on eding page and fast moving to home page no result
+ - escapre simbols in reg exp password ++
+ - home > all blog bag loading need reset ++
+#extra
+ - blog loading animation and scroll down ?????????????????????????
+ - router animation !
+ - popUP IMG
+#migration
+ - env file !
+ - migration script for mysql

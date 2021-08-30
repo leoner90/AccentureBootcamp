@@ -1,35 +1,42 @@
 <template>
-    <div class="page-wrapper">
-      <h1 class="page-header">EDIT BLOG</h1>
-      Header
-      <div><input v-model="BlogHeader" /></div>
-      Body
-      <div><input v-model="BlogBody" /></div>
-      <button class="Save-changes-btn" @click="saveChanges(id)"> SAVE CHANGES </button>
-  </div>
+<div>
+    <BlogToEdit 
+      :img= " blogs.img"
+      :error = "error"
+      :EditingErr = "EditingErr"
+      v-model:BlogHeader = 'BlogHeader' 
+      v-model:BlogBody = 'BlogBody' 
+      :onFileChange="onFileChange"   
+      :saveChanges="saveChanges"   
+    />
+ </div>
 </template>
 
 <script>
-//Server Side Functions Import
-import ServerFunctions from '@/ServerSideFunctions/ServerFunctions.vue';
+//Import components
+import BlogToEdit  from '@/components/EditBlogComponent.vue';
 
 export default {
+  
   data() { 
     return {
-      BlogHeader: '',
-      BlogBody: '',
+      BlogBody: '22777',
+      BlogHeader: 'gaga33',
+      selectedFile: '',
       id: '',
       obj: {},
+      blogs: [] ,
+      error: this.$store.state.autorisationErrors,
+      EditingErr: [],
     }
   },
 
   methods:{
     //CHECKS IS USER LOGED IN ON MOUNTED , IF NOT - REDIRECTS TO MAIN PAGE
     async IsUserLogedIn() {
-      let obj = {whatToCall: 'IslogedIn' }
-      this.isLoged = await ServerFunctions.serverCall(obj);
-      if (!this.isLoged) {
-        await this.$router.push('/');
+      let isLoged = this.$store.state.isLogedIn;
+      if (!isLoged) {
+        await this.$router.push('/LogIn');
       } else {
           await this.getBlogForEditing() ;
       }
@@ -37,52 +44,71 @@ export default {
 
     //GET BLOG FOR CHANGE BY ID(FROM QUERY)
     async getBlogForEditing() {
-        let obj = {whatToCall: 'getBlogByID', id : this.$route.query.id }
-        let result = await ServerFunctions.serverCall(obj);
-        this.BlogHeader = result[0].BlogHeader;
-        this.BlogBody = result[0].BlogBody;
-        this.id = result[0].id_blogs;
+        this.id = this.$route.query.id ;
+        if(this.$store.state.ThisUserBlogs.length == 0) {
+          console.log('FROM DB')
+          let obj = {whatToCall: 'getBlogByID', id : this.id }
+          await this.$store.dispatch("getBlogByID", obj);
+          //if no posts in DB
+          this.error = this.$store.state.autorisationErrors;
+          if(!this.error) {
+            let userBlog = this.$store.state.ThisUserBlogs;
+            this.blogs = userBlog.find(x => x.id_blogs == this.id );
+            this.BlogBody = this.blogs.BlogBody;
+            this.BlogHeader = this.blogs.BlogHeader;
+          }
+        }
+        else {
+          console.log('FROM Memory')
+          let userBlog = this.$store.state.ThisUserBlogs;
+          this.blogs = userBlog.find(x => x.id_blogs == this.id );
+          this.BlogBody = this.blogs.BlogBody;
+          this.BlogHeader = this.blogs.BlogHeader;
+        }
+        
     },
-
-    //MAKES OBJECT FROM INPUT VALUES AND SAVE THEM INTO DB USING SERVER SIDE FUNCTIONS
-    async saveChanges(id) {
-      let obj = {whatToCall: 'saveBlog' , BlogHeader: this.BlogHeader  , BlogBody: this.BlogBody, id: id}
-      let result = await ServerFunctions.serverCall(obj);
-
-      if (result){
-        await this.$router.push('/UserBlogs');
-      } else {
-        alert('You Have No Permisions');
+     async onFileChange(e) {
+      const selectedFile = e.target.files[0]; // accessing file
+      if(selectedFile){
+        let url = URL.createObjectURL(selectedFile);
+        document.getElementById("Img").src = url;
+        this.selectedFile = selectedFile;
       }
-    }
+      
+    },    
+    async saveChanges() {
+      this.EditingErr = [];
+      // img check
+      if(this.selectedFile){
+        let fileExtensionName = this.selectedFile.type.split('/').pop();
+        let pattern= new RegExp((/(gif|jpe?g|png|webp|bmp)$/i))
+        !pattern.test(fileExtensionName)  ? this.EditingErr.push("Wron File Type") : null;
+        this.selectedFile.size > 4000000  ? this.EditingErr.push("File is tooooo big max 4mb") : null;
+      }
+      //fields check
+      this.BlogHeader.length > 100 ? this.EditingErr.push("Header Max lenght 100 simbols") : null;
+      this.BlogBody.length > 65535 ? this.EditingErr.push("TEXT MAX 65,535 simbols") : null;
+      if ( this.BlogBody.length == 0  || this.BlogHeader.length == 0) {
+        this.EditingErr.push("No Blank Fields")
+      }
+
+      if(this.EditingErr.length == 0){
+        let obj = {whatToCall: 'saveBlog' , BlogHeader: this.BlogHeader  , BlogBody: this.BlogBody, id: this.id}
+        const formData = new FormData();
+        formData.append("file", this.selectedFile);  // appending file
+        formData.append("file2",  JSON.stringify(obj));
+        await this.$store.dispatch("SaveEditedBlog", formData);
+        this.error = this.$store.state.autorisationErrors;
+      }
+    },  
   },
   
   //CALL FUNCTIONS ON MOUNT
-  mounted() {
-      this.IsUserLogedIn();
-      this.getBlogForEditing()
-  }
+  async mounted() {
+      await this.IsUserLogedIn();
+  },
+  components: {
+     BlogToEdit
+  },
 }
 </script>
-
-<style scoped>
-input {
-  min-width: 500px;
-  min-height: 125px;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.page-wrapper {
-  text-align: center;
-}
-
-.Save-changes-btn {
-  font-weight: bold;
-  background: lightgreen;
-  padding: 7px 18px;
-  border-radius: 20px;
-  margin-top: 5px;
-  cursor: pointer;
-}
-</style>

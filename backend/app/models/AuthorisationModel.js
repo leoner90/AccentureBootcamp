@@ -28,10 +28,15 @@ class AuthorisationModel {
   async RegistrationModel(req , newStudentData) {   
     //CHECK FOR ERRORS
     const errors = [];
-      //If empty fields provided -> error
-    if(newStudentData.login == '' || newStudentData.password == '' || newStudentData.email == ''){
-      errors.push("Fields Can't be empty");
-    }
+    let pattern  = new RegExp("^[A-Za-z0-9]{4,16}$");
+    !pattern.test(newStudentData.login) ? errors.push('Login must contain only Letters or Numbers'):  null ; 
+    pattern = new RegExp("^(?=.*[!@#$%^()*{}?_+-])(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{5,}$" );
+    !pattern.test(newStudentData.password) ? errors.push('password must contain 1 Upper one Lower case and 5 simols + spec simbol'): null ; 
+    !pattern.test(newStudentData.RepeatedPassword) ? errors.push('Repeated Password must contain 1 Upper one Lower case and 5 simols + spec simbol'): null ; 
+    newStudentData.password != newStudentData.RepeatedPassword ? errors.push('Passwords Don\'t Match Server Err'): null ; 
+    pattern = new RegExp("^[a-zA-Z0-9.-_]+@[a-zA-Z0-9.-]+.[a-zAZ]");
+    !pattern.test(newStudentData.email ) ? errors.push('incorect email'):  null ; 
+
       //If user with such login exists -> error
     const DbUserData = await this.__connection.getByKey('Login',newStudentData.login);
     if( DbUserData.length > 0){
@@ -58,11 +63,11 @@ class AuthorisationModel {
   async LogInModel(req, user) {
     //CHECK FOR ERROR 
     const errors = [];
-      //If empty fields provided -> error
-    if(user.login == '' || user.password == ''){
-        errors.push("Fields Can't be empty");
-    }
-      //If login or password is incorect -> error
+    let pattern  = new RegExp("^[A-Za-z0-9]{4,16}$");
+    !pattern.test(user.login) ? errors.push('Login must contain only Letters or Numbers'): null ; 
+    pattern = new RegExp("^(?=.*[!@#$%^()*{}?_+-])(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{5,}$" );
+    !pattern.test(user.password) ? errors.push('password must contain 1 Upper one Lower case and 5 simols + spec simbol'):  null ; 
+  
     const DbUserData = await this.__connection.getByKey('Login', user.login);
     if(DbUserData.length == 0){
       errors.push("login Or Password is incorrect");
@@ -95,7 +100,7 @@ class AuthorisationModel {
       return jwt.verify(token, apikey , (err, user) => {
         if (err == null) {
           //RETURN USER INFORMATION IF VERIFICATION SUCCEEDED
-          return user;
+          return true;
         } else {
           //IS VERIFICATION FAILED RETURN FALSE
           return false;
@@ -109,10 +114,14 @@ class AuthorisationModel {
 
  //____LOG OUT
  async LogOutModel(req) {
-    //Destroy Session
+    //Destroy Session /deletete api key from user db
+    var id = req.session.userId;
+    await this.__connection.updateAPIkey( '' , id);
     req.session.destroy(function(error){
       console.log("Session Destroyed")
+     
     })
+    return false;
   }
 }
 

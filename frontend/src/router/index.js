@@ -6,7 +6,8 @@ import Registration from '../views/UserReg.vue';
 import LogIn from '../views/UserLogIn.vue'
 import UserBlogs from '../views/UserBlogs.vue'
 import EditBlog from '../views/EditBlog.vue'
-import ErrorPage from '../views/ErrorPage.vue'
+import ErrorPage from '../views/ErrorPage.vue';
+import SingleBlogView from '../views/SingleBlogView.vue'
 
 const routes = [
   {
@@ -16,7 +17,12 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+  },
+  {
+    path: '/SingleBlogView',
+    name: 'SingleBlogView',
+    component: SingleBlogView
   },
   {
     path: '/addblog',
@@ -54,5 +60,10 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+router.afterEach(() => {
+  window.scrollTo(0, 0);
+})
+
 
 export default router

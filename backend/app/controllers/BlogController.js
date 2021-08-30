@@ -3,7 +3,7 @@ const BlogModel = require("../models/BlogModel");
 
 class BlogController {
   async AddNewBlogController(req, res) {
-   return await BlogModel.AddNewBlogModel(req);
+   return await BlogModel.AddNewBlogModel(req );
   }
   //GET ALL BLOGS OR ALL BLOGS OF SPECIFIED USER  
   async GetBlogsController(req, res) {

@@ -1,30 +1,17 @@
 <!-- Provide form for user registration , displays errors , in case if users is loged in redirects to main page -->
 <template>
-    <div class="page-wrapper">
-      <h1 class="page-header">REGISTRATION</h1>
-      <hr>
-      <div class="error" v-for="error of errors" :key="error.i" >
-        {{error}}
-      </div>
-      <form @submit.prevent="submit">
-        <div>
-          <input name="login" type="text" v-model="login" placeholder="login" lazy/>
-        </div>
-        <div>
-          <input name="email" type="text" v-model="email" placeholder="E-mail" lazy/>
-        </div>
-        <div>
-          <input name="password" type="password" v-model="password" placeholder="Password" lazy/>
-        </div>
-        <button class="reg-btn" type="submit"> REGISTRATION </button>
-      </form>
-  </div>
+  <RegForm     
+    v-model:login = "login"
+    v-model:email = "email"
+    v-model:password = "password"
+    v-model:RepeatedPassword = "RepeatedPassword"
+    :errors = "errors"
+    :submit="submit"  
+  />
 </template>
 
 <script>
-//SERVER SIDE FUNCTIONS IMPORT
-import ServerFunctions from '@/ServerSideFunctions/ServerFunctions.vue';
-
+import RegForm  from '@/components/RegComponent.vue';
 
 export default {
 data() {
@@ -32,64 +19,49 @@ data() {
       login: '',
       email: '',
       password: '',
-      errors: '',
-      obj: {},
+      RepeatedPassword:'',
+      errors: [],
     }
   },
   methods: {
     //Register a user , if no error reloads page (redirects to home page) , otherwise displays errors.
-    async submit(){    
-      let obj = {whatToCall: 'reg' , login: this.login  , email: this.email, password: this.password };
-      let result = await ServerFunctions.serverCall(obj);
-      if (result == true) {
-        location.reload();
-      } else {
-        this.errors = result;
+    //if last error = null
+    async submit(){ 
+      this.errors= [];   
+      let pattern  = new RegExp("^[A-Za-z0-9]{4,16}$");
+      !pattern.test(this.login) ? this.errors.push('Login must contain only Letters or Numbers'):  null ; 
+      pattern = new RegExp("^(?=.*[!@#$%^()*{}?_+-])(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{5,}$" );
+      !pattern.test(this.password) ? this.errors.push('password must contain 1 Upper one Lower case and 5 simols + spec simbol'): null ; 
+      !pattern.test(this.RepeatedPassword) ? this.errors.push('Repeated Password must contain 1 Upper one Lower case and 5 simols + spec simbol'): null ; 
+      this.password != this.RepeatedPassword ? this.errors.push('Passwords Don\'t Match'): null ; 
+      pattern = new RegExp("^[a-zA-Z0-9.-_]+@[a-zA-Z0-9.-]+.[a-zAZ]");
+      !pattern.test(this.email) ? this.errors.push('incorect email'):  null ; 
+      
+        if(this.errors.length == 0){
+        let obj = {whatToCall: 'reg' , login: this.login  , email: this.email, password: this.password ,RepeatedPassword:this.RepeatedPassword };
+        await this.$store.dispatch("UserRegistration", obj);
+        let result = this.$store.state.isLogedIn; 
+        if (result == true) {
+          location.reload();
+        } else {
+        this.errors = this.$store.state.autorisationErrors;
+        }
       }
     },
     //Cheack is user loged in on mounted , if so redirects to the main page
     async IsUserLogedIn() {
-      let obj = {whatToCall: 'IslogedIn' }
-      let isLoged = await ServerFunctions.serverCall(obj);
+      let isLoged = this.$store.state.isLogedIn;
       if (isLoged) {
-        await this.$router.push('/');
+        this.$router.push('/');
       }
     }
   },
   //On Mount
   mounted() {
       this.IsUserLogedIn();
+  },
+  components: {
+    RegForm,
   }
 }
 </script>
-
-<style scoped>
-.page-wrapper {
-  text-align: center;
-}
-
-.error {
- color: red;
- font-weight: bold;
- padding: 5px;
-}
-
-.error:before {
-  Content: "* ";
-}
-
-input {
-  padding: 5px;
-  margin: 3px;
-  border-radius: 5px;
-}
-
-.reg-btn {
-  font-weight: bold;
-  background: lightblue;
-  padding: 7px 18px;
-  border-radius: 20px;
-  margin-top: 5px;
-  cursor: pointer;
-}
-</style>

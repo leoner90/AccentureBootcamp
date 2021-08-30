@@ -22,7 +22,7 @@ class AuthorisationController {
 
   // LOG OUT , DESTROY SESSION
   async logOutController(req, res) {
-    await AuthorisationModel.LogOutModel(req);
+    return await AuthorisationModel.LogOutModel(req);
   } 
 }
 
