@@ -7,6 +7,7 @@
         :onFileChange="onFileChange"   
         :saveNewBlog="saveBlog"
         :EditingErr="EditingErr"
+        :imgPrewContainer="imgPrewContainer"
     />
 </div>
 </template>
@@ -24,6 +25,7 @@ export default {
             BlogImg: '',
             selectedFile: '',
             EditingErr: [],
+            imgPrewContainer: false,
         }
     },
     methods: { 
@@ -54,11 +56,12 @@ export default {
                 this.response = this.$store.state.susseccMsg;
                 this.BlogHeader = '';
                 this.BlogBody = '';
+                this.imgPrewContainer = false;
             }
         },
        
         async onFileChange(e) {
-            document.getElementById("imgPrewContainer").style.opacity = 1;
+            this.imgPrewContainer = true;
             const selectedFile = e.target.files[0]; // accessing file
             if(selectedFile){
                 let url = URL.createObjectURL(selectedFile);

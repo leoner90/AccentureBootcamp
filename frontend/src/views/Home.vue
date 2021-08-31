@@ -38,6 +38,28 @@ data() {
 
  
 <style scoped>
+::v-deep(.ArticleWrapper)  {
+  display: flex;
+}
 
+::v-deep(.ArticleWrapper > div) {
+  flex-basis: 33.333333%;
+  margin-top: 1%;
+  border-radius: 5px;
+  flex: 1;
+}
+
+@media only screen and (max-width: 1024px) {
+  ::v-deep(.ArticleWrapper) {
+    margin: 20px 0;
+    display:block;
+  }
+
+  ::v-deep(.ArticleWrapper > div) {
+ 
+    flex-basis: 100%;
+  }
+}
+ 
 
 </style>

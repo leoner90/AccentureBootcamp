@@ -44,6 +44,7 @@ import router from '@/router/'
 
     AddnewBlog(state,result){
       state.susseccMsg = result;
+      location.reload();
     },
 
     GetAllSpecificUserBlogs(state,result) {
@@ -55,7 +56,6 @@ import router from '@/router/'
     DeleteBlogMutatation(state,result) {
       if (result){
         location.reload();
-        
       } else {
         alert('You Have No Permisions');
       }

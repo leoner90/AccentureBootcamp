@@ -2,7 +2,7 @@
     blogs: [],
     PostLimits: 1,
     curentPostCount: 0,
-    isLogedIn: '' ,
+    isLogedIn: false ,
     AllBlogsInDb: null,
     lastBlogs: [] ,
     autorisationErrors: '',

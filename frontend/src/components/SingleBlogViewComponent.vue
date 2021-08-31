@@ -2,8 +2,8 @@
 <template>
     <div class="SingleBlogPageWrapper" >
       
-      <div class="kakaWrapper" style="flex:1;  border-radius: 10px 10px 0 0;   border: 2px solid #d4d3d3;">
-        <img class="SingleBlogPageImg" :src="item.img" alt="" HSPACE='20' VSPACE='20'/>
+      <div class="kakaWrapper" style="flex:1;  background: #fff;  ">
+        <img class="SingleBlogPageImg" :src="item.img" alt="" />
         <div class="SinglePageBlogBody"> 
         <h2 class="SingleBlogPageHeader"> 
           <i class="fas fa-book-reader"></i>
@@ -48,23 +48,32 @@ export default {
 </script>
   <style scoped>
   .blog-userName {
-  background: #ccc;
-  border-radius: 0 0 5px 5px ;
+  background: #444;
+  color: #fff;
+  border-radius: 0 0 8px 8px ;
   }
 
  .SingleBlogPageWrapper {
+   display: flex;
+    border-radius: 10px 10px 15px 15px;
+    border: 2px solid rgb(68 68 68);
+    border-top: 20px solid #444444;
+
     text-align: center;
-     background: #fff;
-     flex-direction: column;
-     min-height: 100vh;
-    padding: 5%;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 0;
+    width: 80%;
+    margin: 0 auto;
  }
  .SingleBlogPageImg {
+  margin: 80px 30px 30px 60px;
   border-radius: 10px;
-  border: 5px solid rgba(0,0,0,0.3);
+  border: 1px solid rgba(0,0,0,0.3);
   float: left;
   height: auto;
   width: 40%;
+  max-height: 250px;
  }
 
  @media only screen and (max-width: 1024px) {
@@ -79,16 +88,18 @@ export default {
  .SingleBlogPageHeader{
    text-align: center;
    font-style: italic;
+
    font-size: 25px;
   font-weight: bold;
    
  }
 
  .SinglePageBlogBody {
+  
    border-radius:10px 10px 0 0;
-   padding: 20px;
+   padding: 60px;
    text-align: left;
-   background: #f5f5f5;
+ 
  }
 
  .backBtn {

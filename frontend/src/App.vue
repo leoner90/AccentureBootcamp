@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import Header from './components/HeaderComponent.vue';
+import Header from './components/Header/HeaderComponent.vue';
 import Footer from './components/FooterComponent.vue';
 export default {   
   components:{
@@ -26,20 +26,36 @@ export default {
 </script>
 
 <style>
-.fade-enter-active,
+*{
+   word-break: break-all;
+}
+.fade-enter-active{
+  opacity:0;
+}
 .fade-leave-active {
-  transition: opacity .25s  ;
+   opacity:0;
+}
+.fade-enter-to{
+  transition: opacity 1s  ;
+  -webkit-animation: 1s ease 0s normal forwards 1 fadein;
+  animation: 1s ease 0s normal forwards 1 fadein;
 }
 
+@keyframes fadein{
+    0% { opacity:0.1;   transform: scale(0.1);}
+    33% { opacity:0.3;  }
+    66% { opacity:0.5;  }
+    100% { opacity:1; transform: scale(1.0); }
+}
 
-.fade-enter-from{
-    opacity: 0.7;
-  background: rgba(0,0,0,0.6)
+@-webkit-keyframes fadein{
+     0% { opacity:0.1;   transform: scale(0.1);}
+    33% { opacity:0.3; }
+    66% { opacity:0.5; }
+    100% { opacity:1; transform: scale(1.0); }
 }
-.fade-leave-to {
-  opacity: 0;
-  background: rgba(0,0,0,0.1)
-}
+ 
+ 
 
 .clear {
   clear: both;
@@ -47,6 +63,7 @@ export default {
 
 body {
   margin: 0;
+  background: #f9f7f7;
 }
 
 #app {
@@ -56,11 +73,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   min-height: 100vh;
-  padding-bottom: 30px;
+  padding-bottom: 45px;
 }
 
 .page-view {
-  padding: 0 12.5%;
+  padding: 0 10%;
+  max-width: 2200px;
+  margin: 0 auto;
 }
 @media only screen and (max-width: 1300px) {
   .page-view {

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import RegForm  from '@/components/RegComponent.vue';
+import RegForm  from '@/components/Authorizations/RegComponent.vue';
 
 export default {
 data() {

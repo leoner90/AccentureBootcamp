@@ -2,7 +2,6 @@
 <template>
   <div class="blogPage">
     <Article :item="blogs"  :blogDelete='blogDelete' />
-
   </div>
 </template>
 

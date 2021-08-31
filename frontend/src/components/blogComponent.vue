@@ -1,8 +1,8 @@
 <!-- Get object as a props and displays it -->
 <template>
- 
-<div class="ArticleWrapper" id="ArticleWrapper" style="display:flex; flex-direction: flow; flex-wrap: wrap;">
-    <div class="blogPage" v-for="items of item" :key="items.message">
+ <div>
+<div class="ArticleWrapper" id="ArticleWrapper" >
+    <div id="element" class="blogPage" v-for="items of item" :key="items.message">
       <div class="border-helper">
         <div class="blogImg">
           <img class="blog-img" :src="items.img"/>
@@ -11,7 +11,7 @@
           <h4 class="blog-header"> {{items.BlogHeader}}</h4>
           <div class="blog-body">
             <!-- Line height / div max-height = limit -->
-            {{items.BlogBody.substring(0, 250)}}...
+            {{items.BlogBody}}  
           </div>
           <router-link class="readMoreBtn" :to="{ name: 'SingleBlogView', query: { id:items.id_blogs }, params: { item:  JSON.stringify(items) } }"> 
               READ MORE....
@@ -30,7 +30,7 @@
       </div>
     </div> 
 </div>
-
+</div>
 </template>
 
 <script>
@@ -47,7 +47,11 @@ export default {
 </script>
 
 <style scoped>
-
+.folAllBlogsPage{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 
 .authorInitials {
   width: 50px;
@@ -66,29 +70,19 @@ export default {
 .blog-img {
   width: 100%;
   height: auto;
+  height: 210px;
   border-radius: 5px;
 }
-.ArticleWrapper {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 100px 0;
-}
-.ArticleWrapper > div {
-  flex: 0 0 33.333333%;
-  margin-top: 1%;
-  border-radius: 5px;
-}
-@media only screen and (max-width: 1024px) {
-  .ArticleWrapper {
-    margin: 20px 0;
-  }
-
-  .ArticleWrapper > div {
-    flex: 0 0 100%;
-  }
-}
+@media only screen and (max-width: 1000px) {
+    .blog-img {
+       height: auto;
+    }
+ }
 
 .border-helper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
    padding: 20px;
    border-radius: 5px;
     box-shadow: -1px 1px 18px -4px rgba(0,0,0,0.75);
@@ -112,6 +106,7 @@ export default {
   font-weight: bold;
   color:#000;
   MARGIN:5px;
+  flex: 1;
   text-align: center;
   padding:5px;
 }
@@ -124,12 +119,16 @@ export default {
 }
  
 .blog-body {
-  max-height: 150px;
-  line-height: 25px;
+  text-align: justify;
+  text-justify: inter-word;
+  line-height: 27px;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
   overflow: hidden;
+  word-break: break-all;
   border-bottom: 1px solid #ccc;
-  padding:15px;
-  flex: 1;
+  padding: 0 15px;
 }
 
 .blog-userName{

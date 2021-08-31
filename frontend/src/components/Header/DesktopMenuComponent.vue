@@ -1,23 +1,19 @@
 <template>
-  <header>
-    <div id="nav">
-      <!--Logo -->
-      <img class="MainLogo" src="https://www.accenture.com/_acnmedia/Thought-Leadership-Assets/Images/mainpage/Accenture-acn-mobile-logo-1" alt="" />
-      <!--Main Nav -->
+  <div class="DesktopNavWrapper">
       <div class="mainNav">
-        <router-link to="/"> Home | </router-link> 
+        <router-link to="/"> HOME | </router-link> 
         <router-link to="/Blogs"> All POSTS | </router-link> 
       </div>
       <!-- User nav And User actions (reg/login) -->
       <div class="userArea"> 
         <!--if user is loged in show + sign to add posts -->
         <router-link to="/addblog" v-if="isLoged"> 
-          <span class="addPostBtn">
+          <span class="addPostBtn"  style="font-size: 16px; color: #ab003f; background:#5d5d5d;">
             <i class="fas fa-plus"></i>
           </span>
         </router-link>
         <!--toggles user menu on click to user icon ....FIX this-->
-        <span @click='toggle = !toggle'>
+        <span @click='toggle = !toggle' style="font-size: 16px;">
           <i class="fas fa-user" ></i> 
         </span>
         <div class="userAreaActions" v-show='toggle'>
@@ -25,69 +21,71 @@
           <div v-if="isLoged">
             <p>
               <router-link to="/UserBlogs" @click='toggle = !toggle'> 
-                My Posts
+                <i class="fab fa-blogger-b"></i>
+                 MY BLOGS
               </router-link>
             </p>
             <p @click='toggle = !toggle'> 
-              <button class="btn btn-success" type="submit" @click="logOut"> 
-                LOG OUT
+              <button class="LogOutBtn" type="submit" @click="logOut">
+                <i class="fas fa-sign-out-alt"></i> LOG OUT
               </button>
             </p>
           </div>
           <!-- show reg/login links If user isn't loged in -->
           <div v-else>
             <p>
-              <router-link to="/Registration" @click='toggle = !toggle'> 
-                Registration
-              </router-link> 
+              <router-link to="/Registration" @click='toggle = !toggle'> Registration </router-link> 
             </p>
             <p>
-              <router-link to="/LogIn" @click='toggle = !toggle'> 
-                LogIn 
-              </router-link> 
+              <router-link to="/LogIn" @click='toggle = !toggle'> LogIn </router-link> 
             </p>
           </div>
         </div>
       </div> 
     </div>
-  </header>
 </template>
 
 <script>
-//SERVER SIDE FUNCTIONS IMPORT
- 
-
-
 export default { 
   name: 'Header',
-  props: {},
-  data () {
+  props: {
+    isLoged: Boolean,
+    logOut: Function
+  },
+    data () {
     return {
       toggle: false,
-      isLoged: '',
     }
   },
-  methods:{
-    //LOG OUT USER ON BTN CLICK USING SERVER SIDE FUNCTION
-    async logOut() {
-      let obj = {whatToCall: 'logOut' }
-      await this.$store.dispatch("LogOutAction", obj);
-      location.reload();
-    },
-  },
-  //on mount function
-    async mounted(){
-      this.isLoged = this.$store.getters.IslogedInGetter;
- },
- 
 }
+
 </script>
 
-<style>
+ <style scoped>
+
 .mainNav {
   margin: 0 5%;
   padding:  25px 0;
   flex: 1;
+}
+
+.LogOutBtn {
+  border: 2px solid #ccc;
+  padding: 5px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #fff;
+}
+
+.DesktopNavWrapper{
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+@media only screen and (max-width: 1024px) {
+    .DesktopNavWrapper {
+       display: none;
+    }
 }
 
 .mainNav > a {
@@ -101,20 +99,8 @@ export default {
   margin: 0 10px;
 }
 
-.MainLogo {
-  width: 50px;
-  height: auto;
-  padding: 5px;
-}
 
-#nav {
-  min-height: 50px;
-  padding: 30px;
-  background: #444;
-  border-radius: 0 0 14px 14px;
-  text-align: left;
-  display:flex;
-}
+
 
 .userArea {
   padding: 15px 0;
@@ -123,22 +109,26 @@ export default {
 }
 
 .userAreaActions {
-  text-align:left;
+  text-align: center;
   position: absolute;
   min-height: 50px;
   right:0;
   background: #666;
   padding: 15px;
   border-radius: 5px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
 }
 
 #nav a {
-  font-weight: bold;
+  font-weight: 900;
   color: #fff;
+  letter-spacing: 0.5px;
+  font-size: 18px;
   text-decoration: none;
 }
 
 #nav a.router-link-exact-active {
-  color: #ff440c;
+  color: #d5a8ce;
 }
 </style>

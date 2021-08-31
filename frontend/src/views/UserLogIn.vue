@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import LogInForm  from '@/components/LogInComponent.vue';
+import LogInForm  from '@/components/Authorizations/LogInComponent.vue';
 
 export default {
 data() {

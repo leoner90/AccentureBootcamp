@@ -40,7 +40,7 @@ class BlogModel {
         });
       }
   
-      newBlog.date  =  new Date().toLocaleString();
+      newBlog.date  = new Date().toLocaleDateString();
       newBlog.creatorId = req.session.userId;
       await this.__connection.createBlog(newBlog, imgFile);
       return ["Success msg"];
