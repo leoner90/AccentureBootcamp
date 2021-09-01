@@ -48,7 +48,7 @@ export default {
 
 <style scoped>
 .reg-page-wrapper {
-  padding: 8% 0 0;
+  padding: 100px 0 0;
   text-align: center;
   background: #f9f7f7;
   min-height: 100vh;
@@ -58,8 +58,22 @@ export default {
   width: 20%;
   margin: 0 auto ;
 }
- @media only screen and (max-width: 1024px) {
-    .reg-form  {
+
+  @media only screen and (max-width: 1300px) {
+    .reg-form {
+       width: 40%;
+    }
+ }
+  @media only screen and (max-width: 1024px) {  
+  .reg-form {
+        font-size: 2vw;
+        width: 60%;
+    }
+ }
+
+   @media only screen and (max-width: 800px) {
+  .reg-form {
+        font-size: 2vw;
         width: 80%;
     }
  }

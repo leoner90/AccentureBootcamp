@@ -21,16 +21,16 @@ data() {
     //GET ALL POSTS ON MOUNTED 
     async GetAllBlogsFun(){
       let data = { limitStart: this.curentPostCount , limit: this.PostLimits, whatToCall: 'getAllBlogs', ASCorDESC: 'ASC' } ;
-
       await this.$store.dispatch("fetchBlogs", data);
-     
       this.blogs =   this.$store.getters.ReturnBlogs;  
       this.curentPostCount =  this.$store.state.curentPostCount;
       this.PostLimits =   this.$store.state.PostLimits;
     },
     async HowManyElonStart() {
       let ArticleWrapper =  document.getElementById('ArticleWrapper');   
-      if(ArticleWrapper.offsetHeight   < window.scrollY + window.innerHeight ) {
+            console.log('before' , ArticleWrapper.offsetHeight   , window.scrollY,window.innerHeight);
+      if(ArticleWrapper.offsetHeight   <   window.innerHeight  )  {
+        console.log(ArticleWrapper.offsetHeight   ,window.innerHeight);
         await this.GetAllBlogsFun();
         this.HowManyElonStart()
       }
@@ -44,10 +44,13 @@ data() {
     }
   },
   async mounted() {
-      await this.GetAllBlogsFun();
-      await this.HowManyElonStart();
-      document.addEventListener('scroll', this.OnScrollBlogLoader)
+    await this.GetAllBlogsFun();
+    // await this.HowManyElonStart();
+    document.addEventListener('scroll', this.OnScrollBlogLoader)
   }, 
+  async updated() {
+      await this.HowManyElonStart();
+  },
   unmounted () {
      document.removeEventListener('scroll', this.OnScrollBlogLoader);
   },
@@ -60,9 +63,13 @@ data() {
 
 <style scoped>
  ::v-deep(.ArticleWrapper)  {
-  padding: 0 10%;
+  padding: 0 8%;
 }
- 
+@media only screen and (max-width: 1024px) {
+  ::v-deep(.ArticleWrapper){
+      padding: 0;
+  }
+}
 
 ::v-deep(.blogPage){
     flex: 0 0 100% !important;

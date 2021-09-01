@@ -43,6 +43,12 @@ export default {
 }
  @media only screen and (max-width: 1024px) {
     .login-form {
+        width: 60%;
+    }
+ }
+
+  @media only screen and (max-width: 800px) {
+    .login-form {
         width: 80%;
     }
  }
@@ -51,7 +57,7 @@ export default {
   margin: 5px;
 }
 .login-page-wrapper {
-  padding: 8% 0 0;
+  padding: 100px 0 0;
   text-align: center;
   background: #f9f7f7;
   min-height: 100vh;

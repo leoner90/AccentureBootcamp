@@ -1,5 +1,7 @@
 import router from '@/router/'
   const mutations =  {
+    //TO DO REWRITE STATE from frontend or from return of backend
+   
     UpdateBlogs(state, result ) {
       state.AllBlogsInDb = result.total;
       for(let i = 0; i < result.rows.length; i++ ) {
@@ -12,6 +14,7 @@ import router from '@/router/'
       state.curentPostCount = state.curentPostCount + state.PostLimits;
 
     },
+
     LogInStatusUpdate(state,result) {
       if(result === true) {
         state.isLogedIn = true;
@@ -44,7 +47,10 @@ import router from '@/router/'
 
     AddnewBlog(state,result){
       state.susseccMsg = result;
-      location.reload();
+      state.lastBlogs = [];
+      state.ThisUserBlogs = [];
+      state.blogs = [];
+      state.curentPostCount = 0;
     },
 
     GetAllSpecificUserBlogs(state,result) {
@@ -62,6 +68,10 @@ import router from '@/router/'
     },
     SaveEditedBlogMutation(state,result){
       if (result){
+        state.lastBlogs = [];
+        state.ThisUserBlogs = [];
+        state.blogs = [];
+        state.curentPostCount = 0;
         router.push('/UserBlogs');
       } else {
         state.autorisationErrors = result;
@@ -79,7 +89,7 @@ import router from '@/router/'
       }
     } , 
     Todo(state){
-      state.curentPostCount = state.curentPostCount + 2;
+      state.curentPostCount = state.curentPostCount + 1;
     }
   }
 

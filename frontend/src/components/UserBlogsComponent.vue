@@ -127,12 +127,21 @@ export default {
       flex: 0 0 50%;
     }
  }
-  @media only screen and (max-width: 630px) {
-    .blogPage {
-  box-sizing: border-box;
-  flex: 0 0 100%;
+@media only screen and (max-width: 1050px) {
+  .blogPage {
+    flex: 0 0 100%; 
+  }
+  .ArticleWrapper{
+    padding: 0 15%; 
+  }
 }
- }
+
+@media only screen and (max-width: 800px) {
+  .ArticleWrapper{
+    padding: 0 2%; 
+  }
+}
+
 .User-blog-Header {
    text-align: center;
 

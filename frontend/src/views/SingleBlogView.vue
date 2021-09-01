@@ -17,7 +17,6 @@ export default {
   },
   methods: {
       async OnMount(){
-      
         if(this.$route.params.item){
           this.blog  = JSON.parse(this.$route.params.item) ;
         } else {
@@ -26,9 +25,7 @@ export default {
           let obj = {whatToCall: 'getBlogByID', id : id }
           await this.$store.dispatch("getBlogByID", obj);
           this.blog = this.$store.state.ThisUserBlogs[0];
-          // if (performance.navigation.type != performance.navigation.TYPE_RELOAD) {
-          //   this.hasBackhistory = false;
-          // }
+          
         }
       }
   },

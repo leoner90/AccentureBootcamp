@@ -21,8 +21,8 @@
               {{items.login.substring(0, 2).toUpperCase() }}
             </span>
             <span >
-              <p>{{items.login.toUpperCase()}}</p>
-              <p>{{items.TimeStamp}}</p>
+              <p style="font-weight: bold;">{{items.login.toUpperCase()}}</p>
+              <p style="font-weight: bold;font-style:italic;">{{items.TimeStamp}}</p>
             </span>
             <p class="blog-userName2"></p>
           </div>
@@ -57,13 +57,13 @@ export default {
   width: 50px;
   height: 50px;
   display: inline-block;
-  background: #d4d4d4;
+  background: #ffb7d0;
   border-radius: 99%;
   text-align: center;
   line-height: 50px;
   margin-right: 10px;
   font-weight: bold;
-  color: #666;
+  color: #fff;
   margin-top: 5px;
   margin-right: 20px;
 }

@@ -54,6 +54,7 @@ export default {
                 formData.append("file2",  JSON.stringify(data));
                 await this.$store.dispatch("AddnewBlog", formData);
                 this.response = this.$store.state.susseccMsg;
+                console.log( this.response)
                 this.BlogHeader = '';
                 this.BlogBody = '';
                 this.imgPrewContainer = false;

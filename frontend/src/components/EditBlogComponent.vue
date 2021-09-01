@@ -80,7 +80,7 @@ export default {
 
 @media only screen and (max-width: 1024px) {
     #Img {
-        width: 60%;
+        width: 80%;
         max-height: 250px;
     }
     .EditBlogHeaderInput ,

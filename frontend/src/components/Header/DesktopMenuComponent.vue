@@ -2,13 +2,13 @@
   <div class="DesktopNavWrapper">
       <div class="mainNav">
         <router-link to="/"> HOME | </router-link> 
-        <router-link to="/Blogs"> All POSTS | </router-link> 
+        <router-link to="/Blogs">  POSTS | </router-link> 
       </div>
       <!-- User nav And User actions (reg/login) -->
       <div class="userArea"> 
         <!--if user is loged in show + sign to add posts -->
         <router-link to="/addblog" v-if="isLoged"> 
-          <span class="addPostBtn"  style="font-size: 16px; color: #ab003f; background:#5d5d5d;">
+          <span class="addPostBtn"  style="font-size: 16px; color: #ffb7d0; background:#5d5d5d;">
             <i class="fas fa-plus"></i>
           </span>
         </router-link>
@@ -34,10 +34,14 @@
           <!-- show reg/login links If user isn't loged in -->
           <div v-else>
             <p>
-              <router-link to="/Registration" @click='toggle = !toggle'> Registration </router-link> 
+              <router-link to="/Registration" @click='toggle = !toggle'>
+                <i class="fas fa-user-plus "></i> &nbsp;
+                Registration 
+               </router-link> 
             </p>
             <p>
-              <router-link to="/LogIn" @click='toggle = !toggle'> LogIn </router-link> 
+              <router-link to="/LogIn" @click='toggle = !toggle'> <i class="fas fa-user  " ></i> 
+            <span style="padding:10px">&nbsp; Login </span>  </router-link> 
             </p>
           </div>
         </div>
@@ -109,12 +113,12 @@ export default {
 }
 
 .userAreaActions {
-  text-align: center;
+  font-size: 0.8vw;
   position: absolute;
   min-height: 50px;
   right:0;
   background: #666;
-  padding: 15px;
+  padding: 12px;
   border-radius: 5px;
   font-weight: bold;
   letter-spacing: 0.5px;

@@ -49,7 +49,7 @@ data() {
   flex: 1;
 }
 
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 1000px) {
   ::v-deep(.ArticleWrapper) {
     margin: 20px 0;
     display:block;

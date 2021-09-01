@@ -1,23 +1,25 @@
-#css 
-    Every page style!
+ 
+  - FRONTEND ALL FUN/file/names/ CHECK ETC
+         redo single state from blog - router before each in case id logeed in  
+        -username on reload single page view  - code cleanup one fun for last post load
+        - mutation reset fun
+ - BACKEND FINITO ROUTER JS SEND BACK CORRECT STATUS and result + ALL FILE CLEAN UP +  mvc structure (store file to db con)
+ - ReadmMe + comments
+ - no data inside component!
 
 
-#bags
- - bag on eding page and fast moving to home page no result
- - full page loaded , read last text then press back btn
 
-
-#migration
+ #migration
  - env file !
  - migration script for mysql
 
-::v-deep ?
 
- # FINITO 2d
- - BACKEND FINITO ROUTER JS SEND BACK CORRECT STATUS and result + ALL FILE CLEAN UP +  mvc structure (store file to db con)
- - FRONTEND ALL FUN/file/names/ CHECK ETC redo single state from blog - router before each in case id logeed in    - code cleanup one fun for last post load
- - ReadmMe + comments
- - no data inside component!
- 
 
- 
+
+
+
+
+
+
+#SUPER EXTRA
+- ::v-deep ? If you want a selector in scoped styles to be "deep", i.e. affecting child components, you can use the >>> combinator:

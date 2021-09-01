@@ -24,7 +24,7 @@ data() {
     async IsUserLogedIn() {
        let isLoged = this.$store.state.isLogedIn;
       if (!isLoged) {
-        this.$router.push('/');
+        this.$router.push('/LogIn');
       }
     },
     //Delte blog using server side function and provided id
@@ -37,9 +37,10 @@ data() {
      Article
   },
   //on mount function
-  mounted() {
-      this.GetAllBlogsFun();
-      this.IsUserLogedIn();
+  async mounted() {
+      await this.IsUserLogedIn();
+      await this.GetAllBlogsFun();
+      
   }
 }
 </script>

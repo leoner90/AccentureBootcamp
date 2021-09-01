@@ -27,7 +27,7 @@
     },
    
     async fetchBlogs({state, dispatch,commit }, data) {
-        if(state.curentPostCount + state.PostLimits > state.blogs.length){
+        if(state.curentPostCount + state.PostLimits   > state.blogs.length){
           //if last posts allready loaded on home page , then just get last three posts from memory
           if((state.blogs.length < state.AllBlogsInDb) || ( state.AllBlogsInDb == null) ){
             if(state.blogs.length + state.lastBlogs.length >= state.AllBlogsInDb && state.AllBlogsInDb != null){

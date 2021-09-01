@@ -1,7 +1,9 @@
 <template>
   <header class="nav-wrapper">
     <div id="nav" >
-      <img class="MainLogo" src="https://www.accenture.com/_acnmedia/Thought-Leadership-Assets/Images/mainpage/Accenture-acn-mobile-logo-1" alt="" />
+      <router-link to="/">
+        <img class="MainLogo" src="@/assets/MainLogo.png" alt="" />
+      </router-link>
       <desktopMenu :isLoged = "isLoged" :logOut="logOut"/>
       <mobileMenu :isLoged = "isLoged" :logOut="logOut"/>
     </div>
@@ -72,9 +74,9 @@ export default {
 }
 
 .MainLogo {
-  width: 50px;
-  height: 50px;
-  padding: 5px;
+  width: 45px;
+  height: 55px;
+  margin: 10px;
 }
 
 </style>

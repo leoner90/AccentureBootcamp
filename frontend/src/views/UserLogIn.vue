@@ -33,7 +33,7 @@ data() {
         await this.$store.dispatch("LogingIn", data);
         let result=  this.$store.getters.IslogedInGetter; 
         if (result) {
-          location.reload();
+          this.$router.go()
         } else {
           this.errors = this.$store.state.autorisationErrors;
         }
@@ -41,10 +41,10 @@ data() {
      
     },
     //Cheack is user loged in on mounted , if so redirects to the main page
-    async IsUserLogedIn() {
-       let isLoged =  this.$store.state.isLogedIn;
+    async IsUserLogedIn() {   
+      let isLoged =  await this.$store.state.isLogedIn;
       if (isLoged) {
-        console.log(isLoged)
+        console.log('IS LOGED IN',isLoged)
         this.$router.push('/');
       }
     }
@@ -53,7 +53,7 @@ data() {
     LogInForm,
   },
   //On Mount
-  async mounted() {
+  async beforeMount() {
       await this.IsUserLogedIn();
   }
   

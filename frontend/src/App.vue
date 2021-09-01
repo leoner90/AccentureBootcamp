@@ -1,8 +1,4 @@
-<template>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;1,100&display=swap" rel="stylesheet">
- 
+<template> 
   <Header />
   <router-view v-slot="{ Component }">
     <transition name="fade" mode="out-in">
@@ -30,16 +26,14 @@ export default {
    word-break: break-all;
 }
 .fade-enter-active{
-  opacity:0;
+   transition: opacity 1s  ;
+  -webkit-animation: 1s ease 0s normal forwards 1 fadein;
+  animation: 1s ease 0s normal forwards 1 fadein;
 }
 .fade-leave-active {
    opacity:0;
 }
-.fade-enter-to{
-  transition: opacity 1s  ;
-  -webkit-animation: 1s ease 0s normal forwards 1 fadein;
-  animation: 1s ease 0s normal forwards 1 fadein;
-}
+
 
 @keyframes fadein{
     0% { opacity:0.1;   transform: scale(0.1);}
@@ -77,17 +71,17 @@ body {
 }
 
 .page-view {
-  padding: 0 10%;
+  padding: 0 15%;
   max-width: 2200px;
   margin: 0 auto;
 }
-@media only screen and (max-width: 1300px) {
+@media only screen and (max-width: 1350px) {
   .page-view {
-   padding: 0 10%;
+   padding: 0 7%;
   }
 }
 
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 1000px) {
   .page-view {
    padding: 0 5%;
   }

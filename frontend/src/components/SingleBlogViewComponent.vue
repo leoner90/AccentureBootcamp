@@ -11,10 +11,6 @@
           <hr>
         </h2>
         {{item.BlogBody}}
-          d became the first nation where SMS text messaging was offered on a competitive as well as on a commercial basis. GSM was allowed[by whom?] in the United States and the radio frequencies were blocked and awarded to US "Carriers" to use US technology....d became the first nation where SMS text messaging was offered on a competitive as well as on a commercial basis. GSM was allowed[by whom?] in the United States and the radio frequencies were blocked and awarded to US "Carriers" to use US technology....d became the first nation where SMS text messaging was offered on a competitive as well as on a commercial basis. GSM was allowed[by whom?] in the United States and the radio frequencies were blocked and awarded to US "Carriers" to use US technology....
-          d became the first nation where SMS text messaging was offered on a competitive as well as on a commercial basis. GSM was allowed[by whom?] in the United States and the radio frequencies were blocked and awarded to US "Carriers" to use US technology....d became the first nation where SMS text messaging was offered on a competitive as well as on a commercial basis. GSM was allowed[by whom?] in the United States and the radio frequencies were blocked and awarded to US "Carriers" to use US technology....d became the first nation where SMS text messaging was offered on a competitive as well as on a commercial basis. GSM was allowed[by whom?] in the United States and the radio frequencies were blocked and awarded to US "Carriers" to use US technology....
-          d became the first nation where SMS text messaging was offered on a competitive as well as on a commercial basis. GSM was allowed[by whom?] in the United States and the radio frequencies were blocked and awarded to US "Carriers" to use US technology....d became the first nation where SMS text messaging was offered on a competitive as well as on a commercial basis. GSM was allowed[by whom?] in the United States and the radio frequencies were blocked and awarded to US "Carriers" to use US technology....d became the first nation where SMS text messaging was offered on a competitive as well as on a commercial basis. GSM was allowed[by whom?] in the United States and the radio frequencies were blocked and awarded to US "Carriers" to use US technology....
-       
         </div>
       </div>
       <div class="blog-userName">
@@ -34,7 +30,6 @@
 export default {
    props: {
     item: Object,
-    hasBackhistory: Boolean
   },
   methods: {
     goTOP() {
@@ -58,7 +53,6 @@ export default {
     border-radius: 10px 10px 15px 15px;
     border: 2px solid rgb(68 68 68);
     border-top: 20px solid #444444;
-
     text-align: center;
     flex-direction: column;
     min-height: 100vh;
@@ -66,6 +60,13 @@ export default {
     width: 80%;
     margin: 0 auto;
  }
+
+ @media only screen and (max-width: 1000px) {
+    .SingleBlogPageWrapper {
+       width: 100%;
+    }
+ }
+
  .SingleBlogPageImg {
   margin: 80px 30px 30px 60px;
   border-radius: 10px;
@@ -82,6 +83,7 @@ export default {
     width: 80%;
     display: block;
     margin: 0 auto;
+    margin-top: 30px;
   }
 }
 
