@@ -4,7 +4,7 @@
       <div class="mobile-manu-expanded" v-show="toggle">
         <div class="mobileTopMenu" style="display:flex; flex: 1;  flex-direction: column;" @click='toggle = !toggle'>
           <router-link class="mobileMenuLink" to="/"> HOME </router-link> 
-          <router-link class="mobileMenuLink" to="/Blogs"> POSTS </router-link> 
+          <router-link class="mobileMenuLink" to="/AllBlogs"> POSTS </router-link> 
           <router-link class="mobileMenuLink" to="/UserBlogs" v-if="isLoged">  MY BLOGS</router-link>
         </div>
         <div style="display:flex; flex-direction: column; " @click='toggle = !toggle'>

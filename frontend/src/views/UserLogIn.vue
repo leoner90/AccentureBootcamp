@@ -12,50 +12,24 @@
 import LogInForm  from '@/components/Authorizations/LogInComponent.vue';
 
 export default {
-data() {
+  data() {
     return {
-        login: '',
-        password: '',
-        errors: [],
+      login: '',
+      password: '',
+      errors: [],
     }
   },
   methods: {
-    //Logins user , if no error redirects to home page , otherwise displays them.
+    /* Login user , Validation on Server Side , if data correct mutation will reload a page ,and router will redirect to Home,
+      otherwise displays Errors */
     async submit(){
-      this.errors = [];
-      // Error Check ПРОБЕЛЫ
-      let pattern  = new RegExp("^[A-Za-z0-9]{4,16}$");
-      !pattern.test(this.login) ? this.errors.push('Login must contain only Letters or Numbers'): null ; 
-      pattern = new RegExp("^(?=.*[!@#$%^()*{}?_+-])(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{5,}$" );
-      !pattern.test(this.password) ? this.errors.push('password must contain 1 Upper one Lower case and 5 simols + spec simbol'):  null ; 
-      if(this.errors.length == 0){
-         let data = {whatToCall: 'login', login: this.login, password: this.password };
-        await this.$store.dispatch("LogingIn", data);
-        let result=  this.$store.getters.IslogedInGetter; 
-        if (result) {
-          this.$router.go()
-        } else {
-          this.errors = this.$store.state.autorisationErrors;
-        }
-      }
-     
+      let data = { whatToCall: 'login', login: this.login, password: this.password };
+      await this.$store.dispatch("LogingIn", data);
+      this.errors = this.$store.state.autorisationErrors;
     },
-    //Cheack is user loged in on mounted , if so redirects to the main page
-    async IsUserLogedIn() {   
-      let isLoged =  await this.$store.state.isLogedIn;
-      if (isLoged) {
-        console.log('IS LOGED IN',isLoged)
-        this.$router.push('/');
-      }
-    }
   },
-  components:{
+  components: {
     LogInForm,
   },
-  //On Mount
-  async beforeMount() {
-      await this.IsUserLogedIn();
-  }
-  
 }
 </script>

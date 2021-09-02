@@ -28,34 +28,24 @@
     </form>
   </div>
 </template>
+
+<!--SCRIPTS-->
 <script>
 export default {
    props:['login' , 'password','errors','submit'] ,
 }
 </script>
 
-
 <style scoped>
 .login-form {
   width: 20%;
-  margin: 0 auto ;
-
+  margin: 0 auto;
 }
- @media only screen and (max-width: 1024px) {
-    .login-form {
-        width: 60%;
-    }
- }
-
-  @media only screen and (max-width: 800px) {
-    .login-form {
-        width: 80%;
-    }
- }
 
 .page-header {
   margin: 5px;
 }
+
 .login-page-wrapper {
   padding: 100px 0 0;
   text-align: center;
@@ -67,31 +57,20 @@ export default {
   letter-spacing: 1px;
   background: hsl(0deg 68% 57% / 88%);;
   border-radius: 10px;
- color: #fff;
- font-weight: bold;
- font-size: 0.8vw;
- width: 60%;
- line-height: 20px;
- height: 20px;
- margin: 2px auto;
- padding: 5px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 0.8vw;
+  width: 60%;
+  line-height: 20px;
+  height: 20px;
+  margin: 2px auto;
+  padding: 5px;
 }
 
-  @media only screen and (max-width: 1300px) {
-    .error {
-       font-size: 1.5vw;
-       width: 70%;
-    }
- }
-  @media only screen and (max-width: 1024px) {
-    .error {
-        font-size: 2vw;
-        width: 90%;
-    }
- }
-
 .error:before {
-  font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f071  ";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900; 
+  content: "\f071  ";
 }
 
 input {
@@ -117,4 +96,29 @@ input {
 .login-btn:hover {
   background: #194273;
 }
+
+@media only screen and (max-width: 1300px) {
+  .error {
+    font-size: 1.5vw;
+    width: 70%;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .login-form {
+    width: 60%;
+  }
+
+  .error {
+    font-size: 2vw;
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .login-form {
+    width: 80%;
+  }
+}
+
 </style>

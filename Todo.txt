@@ -1,25 +1,30 @@
- 
-  - FRONTEND ALL FUN/file/names/ CHECK ETC
-         redo single state from blog - router before each in case id logeed in  
-        -username on reload single page view  - code cleanup one fun for last post load
-        - mutation reset fun
- - BACKEND FINITO ROUTER JS SEND BACK CORRECT STATUS and result + ALL FILE CLEAN UP +  mvc structure (store file to db con)
- - ReadmMe + comments
- - no data inside component!
+TODO TODAY
+- GITHUB UPLOAD
+- console log for readmi && READMI
 
+#COMPONENTS
+  - Components CSS remove from tags + intends*
+  - no data inside component!
+  - header folder 
+  - BLOG
+  - EDIT
+  - USERBLOG 
 
+#STORE*
+  - use STATE VS GETTERS properly
+  - Comment + intends for each file
+  - PROPER NAMES FOR STATES
 
- #migration
- - env file !
- - migration script for mysql
+#BACKEND
+  - env file !
+  - migration script for mysql
+  - mvc structure (store file to db con)
+  - EditBlog page V-MODEL + COMPONENT + OBJECT PASS
+  - Comment + intends for each file
+  - ERRORS SEND IF DELETE WAS UNSUCCESSFUL
+  - BLOG TOTAL COUNT SEPARETE FUN
 
-
-
-
-
-
-
-
-
-#SUPER EXTRA
-- ::v-deep ? If you want a selector in scoped styles to be "deep", i.e. affecting child components, you can use the >>> combinator:
+#FRONTEND
+  - ReadmMe HOW SYSTEM WORKS
+  - SEPARETE FILES FOR CSS
+  - EditBlog page V-MODEL + COMPONENT + OBJECT PASS

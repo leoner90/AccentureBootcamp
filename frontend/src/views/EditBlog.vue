@@ -1,81 +1,72 @@
 <template>
-<div>
+  <div>
     <BlogToEdit 
-      :img= " blogs.img"
-      :error = "error"
+      :img= " img"
+      :error = "errors"
+      :id = 'id'
       :EditingErr = "EditingErr"
       v-model:BlogHeader = 'BlogHeader' 
       v-model:BlogBody = 'BlogBody' 
       :onFileChange="onFileChange"   
       :saveChanges="saveChanges"   
     />
- </div>
+  </div>
 </template>
 
 <script>
-//Import components
+//IMPORT COMPONENTS
 import BlogToEdit  from '@/components/EditBlogComponent.vue';
 
 export default {
-  
   data() { 
     return {
-      BlogBody: '22777',
-      BlogHeader: 'gaga33',
+      img: '',
+      BlogBody: '',
+      BlogHeader: '',
       selectedFile: '',
       id: '',
-      obj: {},
-      blogs: [] ,
-      error: this.$store.state.autorisationErrors,
+      errors: '',
       EditingErr: [],
     }
   },
-
-  methods:{
-    //CHECKS IS USER LOGED IN ON MOUNTED , IF NOT - REDIRECTS TO MAIN PAGE
-    async IsUserLogedIn() {
-      let isLoged = this.$store.state.isLogedIn;
-      if (!isLoged) {
-        await this.$router.push('/LogIn');
+  methods: {
+    //GET BLOG FOR CHANGE BY ID(FROM PARAMS) OR FROM DB ON PAGE RELOAD(FROM QUERY)
+    async getBlogForEditing() {
+      this.id = this.$route.query.id ;
+      if(this.$route.params.item){
+        console.log('FROM params')
+        let blog  = JSON.parse(this.$route.params.item);
+        //todo
+        this.BlogBody = blog.BlogBody;
+        this.BlogHeader = blog.BlogHeader;
+        this.img = blog.img;
       } else {
-          await this.getBlogForEditing() ;
+        console.log('FROM DB')
+        let obj = {whatToCall: 'getBlogToEdit', id : this.id }
+        await this.$store.dispatch("getBlogByID", obj);
+        //ERRS = TRUE ->IF YOU DONT HAVE RIGHT FOR BLOG EDITING OR THERE IS NO BLOG IN DB
+        this.errors = this.$store.state.RightsForPostChange;
+        if(!this.errors){
+          let blog  = this.$store.state.SignleBlog[0];
+          //todo
+          this.BlogBody = blog.BlogBody;
+          this.BlogHeader = blog.BlogHeader;
+          this.img = blog.img;
+        } else {
+          this.errors = 'YOU HAVE NO RIGHTS OR BLOG DOESN\'T EXIST !'
+        }  
       }
     },
-
-    //GET BLOG FOR CHANGE BY ID(FROM QUERY)
-    async getBlogForEditing() {
-        this.id = this.$route.query.id ;
-        if(this.$store.state.ThisUserBlogs.length == 0) {
-          console.log('FROM DB')
-          let obj = {whatToCall: 'getBlogByID', id : this.id }
-          await this.$store.dispatch("getBlogByID", obj);
-          //if no posts in DB
-          this.error = this.$store.state.autorisationErrors;
-          if(!this.error) {
-            let userBlog = this.$store.state.ThisUserBlogs;
-            this.blogs = userBlog.find(x => x.id_blogs == this.id );
-            this.BlogBody = this.blogs.BlogBody;
-            this.BlogHeader = this.blogs.BlogHeader;
-          }
-        }
-        else {
-          console.log('FROM Memory')
-          let userBlog = this.$store.state.ThisUserBlogs;
-          this.blogs = userBlog.find(x => x.id_blogs == this.id );
-          this.BlogBody = this.blogs.BlogBody;
-          this.BlogHeader = this.blogs.BlogHeader;
-        }
-        
-    },
-     async onFileChange(e) {
-      const selectedFile = e.target.files[0]; // accessing file
+    //IMG PREVIEW and file value assigning
+    async onFileChange(e) {
+      const selectedFile = e.target.files[0]; 
       if(selectedFile){
         let url = URL.createObjectURL(selectedFile);
         document.getElementById("Img").src = url;
         this.selectedFile = selectedFile;
       }
-      
-    },    
+    },
+    //ON SAVING - VALIDATES CLIEN AND SERVER SIDE,If no Err. THEN CHANGE BLOGS AND REDIRECTS TO USER BLOGS PAGE
     async saveChanges() {
       this.EditingErr = [];
       // img check
@@ -91,24 +82,23 @@ export default {
       if ( this.BlogBody.length == 0  || this.BlogHeader.length == 0) {
         this.EditingErr.push("No Blank Fields")
       }
-
+      //If no Err. THEN CHANGE BLOGS AND REDIRECTS TO USER BLOGS PAGE OTHERWISE SHOWS ERR.
       if(this.EditingErr.length == 0){
         let obj = {whatToCall: 'saveBlog' , BlogHeader: this.BlogHeader  , BlogBody: this.BlogBody, id: this.id}
         const formData = new FormData();
         formData.append("file", this.selectedFile);  // appending file
-        formData.append("file2",  JSON.stringify(obj));
+        formData.append("NewBlogContent",  JSON.stringify(obj));
         await this.$store.dispatch("SaveEditedBlog", formData);
         this.error = this.$store.state.autorisationErrors;
       }
     },  
   },
-  
   //CALL FUNCTIONS ON MOUNT
   async mounted() {
-      await this.IsUserLogedIn();
+    await this.getBlogForEditing() ;
   },
   components: {
-     BlogToEdit
+    BlogToEdit
   },
 }
 </script>

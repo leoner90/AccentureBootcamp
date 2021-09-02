@@ -1,52 +1,49 @@
 <template>
-    <Article :item="blogs" />
+  <Article :item="blogs" />
 </template>
 
 <script>
 //COMPONENTS IMPORT
 import Article  from '@/components/blogComponent.vue';
-import { mapGetters } from 'vuex';
+import { mapGetters,mapState } from 'vuex';
+
 export default {
-data() {
+  data() {
     return {
       blogs: [],
     };
   }, 
-
   methods: { 
-    //GET ALL POSTS ON MOUNTED 
+    //GET LAST BLOGS ON MOUNTED , Limit set in vuex state
     async getLastBlogsFun(){
-      let data = {limitStart: 0 , limit: 3, whatToCall: 'getAllBlogs', ASCorDESC: 'DESC'} ;
-      await this.$store.dispatch("getLastPosts", data);
-      this.blogs = this.$store.getters.ReturnlastBlogs; 
+      let data = { limitStart: 0 , limit: this.HomePageBlogsLimit, whatToCall: 'getAllBlogsByLimit', ASCorDESC: 'DESC' } ;
+      await this.$store.dispatch("getLastBlogs", data);
+      this.blogs = this.ReturnlastBlogs; 
     },
   },
-  
   mounted() {
-      //Get last three posts from db on mounted event
-      this.getLastBlogsFun();
+    this.getLastBlogsFun();
   }, 
   computed: {
-    ...mapGetters(['ReturnBlogs'])
+    ...mapGetters(['ReturnlastBlogs']),
+    ...mapState(['HomePageBlogsLimit'])
   },
-
   components: {
      Article
   }
 }
 </script>
 
- 
 <style scoped>
-::v-deep(.ArticleWrapper)  {
+::v-deep(.ArticleWrapper) {
   display: flex;
+  flex-wrap: wrap;
 }
 
 ::v-deep(.ArticleWrapper > div) {
   flex-basis: 33.333333%;
   margin-top: 1%;
   border-radius: 5px;
-  flex: 1;
 }
 
 @media only screen and (max-width: 1000px) {
@@ -56,10 +53,7 @@ data() {
   }
 
   ::v-deep(.ArticleWrapper > div) {
- 
     flex-basis: 100%;
   }
 }
- 
-
 </style>

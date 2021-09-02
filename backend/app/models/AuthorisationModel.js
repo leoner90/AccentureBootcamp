@@ -9,7 +9,7 @@ class AuthorisationModel {
     this.__connection = new db('users');
   }
   /* __ AssignPrivateAndPublicKey IS CALLED ON REGISTRATION OR ON LOG IN ATTEMPT , 
-                                ASSIGNS PUBLIC KEY AND USER ID TO SESSION AND PRIVATE KEY TO DATABASE, ALSO USER DATA TO JWT */
+      ASSIGNS PUBLIC KEY AND USER ID TO SESSION AND PRIVATE KEY TO DATABASE, ALSO USER DATA TO JWT */
   async AssignPrivateAndPublicKey(login, email, userId, req) {
     //Get new Secret Api key for encrypting and decrypting (TO STORE IN DB)
     const SecretKey = require('crypto').randomBytes(64).toString('hex');
@@ -37,7 +37,7 @@ class AuthorisationModel {
     pattern = new RegExp("^[a-zA-Z0-9.-_]+@[a-zA-Z0-9.-]+.[a-zAZ]");
     !pattern.test(newStudentData.email ) ? errors.push('incorect email'):  null ; 
 
-      //If user with such login exists -> error
+    //If user with such login exists -> error
     const DbUserData = await this.__connection.getByKey('Login',newStudentData.login);
     if( DbUserData.length > 0){
       errors.push("This login already exist");
@@ -63,11 +63,6 @@ class AuthorisationModel {
   async LogInModel(req, user) {
     //CHECK FOR ERROR 
     const errors = [];
-    let pattern  = new RegExp("^[A-Za-z0-9]{4,16}$");
-    !pattern.test(user.login) ? errors.push('Login must contain only Letters or Numbers'): null ; 
-    pattern = new RegExp("^(?=.*[!@#$%^()*{}?_+-])(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{5,}$" );
-    !pattern.test(user.password) ? errors.push('password must contain 1 Upper one Lower case and 5 simols + spec simbol'):  null ; 
-  
     const DbUserData = await this.__connection.getByKey('Login', user.login);
     if(DbUserData.length == 0){
       errors.push("login Or Password is incorrect");
@@ -119,7 +114,6 @@ class AuthorisationModel {
     await this.__connection.updateAPIkey( '' , id);
     req.session.destroy(function(error){
       console.log("Session Destroyed")
-     
     })
     return false;
   }

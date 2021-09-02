@@ -31,32 +31,22 @@ export default {
       let obj = {whatToCall: 'logOut' }
       await this.$store.dispatch("LogOutAction", obj);
       this.isLoged = this.$store.getters.IslogedInGetter;
-      location.reload();
     },
   },
   //on mount function
   async mounted(){
-      this.isLoged = this.$store.getters.IslogedInGetter;
+    this.isLoged = this.$store.getters.IslogedInGetter;
   },
   components: {
     mobileMenu,
     desktopMenu
   }
- 
 }
 </script>
 
 <style scoped>
-
-
 .nav-wrapper {
   padding-bottom: 200px;
-}
-
-@media only screen and (max-width: 1024px) {
-  .nav-wrapper {
-    padding-bottom: 120px;
-  }
 }
 
 #nav {
@@ -79,4 +69,9 @@ export default {
   margin: 10px;
 }
 
+@media only screen and (max-width: 1024px) {
+  .nav-wrapper {
+    padding-bottom: 120px;
+  }
+}
 </style>

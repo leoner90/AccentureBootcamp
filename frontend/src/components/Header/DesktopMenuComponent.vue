@@ -2,7 +2,7 @@
   <div class="DesktopNavWrapper">
       <div class="mainNav">
         <router-link to="/"> HOME | </router-link> 
-        <router-link to="/Blogs">  POSTS | </router-link> 
+        <router-link to="/AllBlogs">  POSTS | </router-link> 
       </div>
       <!-- User nav And User actions (reg/login) -->
       <div class="userArea"> 
@@ -66,7 +66,6 @@ export default {
 </script>
 
  <style scoped>
-
 .mainNav {
   margin: 0 5%;
   padding:  25px 0;
@@ -86,11 +85,6 @@ export default {
   align-items: center;
   width: 100%;
 }
-@media only screen and (max-width: 1024px) {
-    .DesktopNavWrapper {
-       display: none;
-    }
-}
 
 .mainNav > a {
   padding: 0 5px;
@@ -102,9 +96,6 @@ export default {
   border-radius: 99%;
   margin: 0 10px;
 }
-
-
-
 
 .userArea {
   padding: 15px 0;
@@ -134,5 +125,11 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #d5a8ce;
+}
+
+@media only screen and (max-width: 1024px) {
+  .DesktopNavWrapper {
+    display: none;
+  }
 }
 </style>

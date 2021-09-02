@@ -1,10 +1,10 @@
-<!-- Get object as a props and displays it -->
 <template>
   <div>
-  <h2 class="User-blog-Header">
-    <i class="fab fa-blogger-b"></i>
-    YOUR BLOGS
-  </h2>
+    <h2 class="User-blog-Header">
+      <i class="fab fa-blogger-b"></i>
+      YOUR BLOGS
+    </h2>
+    <p class="NopostsYet">{{error}}</p>
     <div class="ArticleWrapper" id="ArticleWrapper" >
       <div class="blogPage" v-for="items of item" :key="items.message" >
         <div class="blog-helper">
@@ -13,8 +13,8 @@
           <div class="blog-body">{{items.BlogBody}}</div>
           <div class="blog-userName"><span style="flex: 1; font-weight: 900;"> DATE:</span> {{items.TimeStamp}}</div>
           <div style="display:flex; padding: 0 10px">
-            <div style="flex: 1;   ">
-              <router-link :to="{ name: 'EditBlog', query: { id: items.id_blogs } }">
+            <div style="flex: 1;">
+              <router-link :to="{ name: 'EditBlog', query: { id:items.id_blogs }, params: { item:  JSON.stringify(items) } }"> 
               <button class="userPostsEditBtn"> <i class="fas fa-edit"></i> EDIT</button>
               </router-link>
             </div>
@@ -36,12 +36,20 @@ export default {
   props: {
     item: Object  ,
     blogDelete: Function ,
+    error : String,
   },
 }
 </script>
 
 <style scoped>
 
+.NopostsYet {
+  color: red;
+  font-weight: 900;
+  letter-spacing: 0.4px;
+  font-style: italic;
+  text-align: center;
+}
 
 .ArticleWrapper {
   display:flex; 

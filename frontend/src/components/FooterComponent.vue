@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <i class="fab fa-suse" style="color: #e4a3bb;"></i>
+    <i class="fab fa-suse footerLogo"></i>
   </footer>
 </template>
 
@@ -12,6 +12,7 @@ export default {
 </script>
 
  <style scoped>
+
 .footer {
   text-align: center; 
   position: absolute;
@@ -20,5 +21,10 @@ export default {
   line-height: 30px;
   background: #333;
   width: 100%;
+}
+
+.footerLogo {
+  font-size: 20px;
+  color: #e4a3bb;
 }
 </style>

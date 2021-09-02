@@ -6,8 +6,9 @@
       let whatToCall = data.data.whatToCall;
       let Alldata = JSON.stringify(data.data)
       var header = {'Accept': 'application/json', 'Content-Type': 'application/json'};
+      //IF WE UPLOADING FILES , AND USING FORM DATA
       if (data.header == 0) {
-        let allall = JSON.parse(data.data.get('file2'));
+        let allall = JSON.parse(data.data.get('NewBlogContent'));
         whatToCall = allall.whatToCall
         Alldata = data.data;
         header = {}
@@ -26,21 +27,19 @@
       await state.commit(mutationName,  result  );
     },
    
-    async fetchBlogs({state, dispatch,commit }, data) {
-        if(state.curentPostCount + state.PostLimits   > state.blogs.length){
-          //if last posts allready loaded on home page , then just get last three posts from memory
-          if((state.blogs.length < state.AllBlogsInDb) || ( state.AllBlogsInDb == null) ){
-            if(state.blogs.length + state.lastBlogs.length >= state.AllBlogsInDb && state.AllBlogsInDb != null){
-              commit('GetLastBlogsForAllPAge');
-            } else {
-              await dispatch('Dbconnect', {data:data , method:'POST', mutationName: 'UpdateBlogs' });
-            }
+    async getAllBlogs({state, dispatch,commit }, data) {
+      if(state.curentPostCount + state.PostLimits > state.blogs.length){
+        //if last posts allready loaded on home page , then just get last three posts from memory
+        if((state.blogs.length < state.AllBlogsInDb) || ( state.AllBlogsInDb == null) ){
+          if(state.blogs.length + state.lastBlogs.length >= state.AllBlogsInDb && state.AllBlogsInDb != null){
+            commit('GetLastBlogsForAllPAge');
+          } else {
+            await dispatch('Dbconnect', {data:data , method:'POST', mutationName: 'UpdateBlogs' });
           }
-        } else {
-          commit('Todo');
         }
+      } 
     },
-    async getLastPosts({state,dispatch,commit }, data) {
+    async getLastBlogs({ state, dispatch, commit }, data) {
       if(state.lastBlogs.length == 0 ){
         //if all data allready loaded on all post page , then just get last three posts from memory
         if(state.AllBlogsInDb  == state.blogs.length){
@@ -60,7 +59,7 @@
       await dispatch('Dbconnect', {data:data, method:'POST', mutationName: 'LogOut' });
     },
     async IsUserLogedIn({dispatch }, data) {
-      await dispatch('Dbconnect', {data:data , method:'POST', mutationName: 'LogInStatusUpdate' });
+      await dispatch('Dbconnect', {data:data , method:'POST', mutationName: 'OnPageLoadCheckUserAuthStatus' });
     },
     async AddnewBlog({dispatch}, formData) {
       await dispatch('Dbconnect', {data:formData , method:'POST', mutationName: 'AddnewBlog' ,header : 0});
@@ -79,6 +78,5 @@
       await dispatch('Dbconnect', {data:data , method:'POST', mutationName: 'getBlogByID'});
     }
   }
- 
 
 export default actions;

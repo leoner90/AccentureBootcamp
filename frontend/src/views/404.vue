@@ -1,7 +1,7 @@
 <template>
 <div class="ErrorPage">
-    <p style="margin: 0; ">404</p>
-    <p style="margin: 0; ">PAGE NOT FOUND</p>
+    <p> 404 </p>
+    <p> PAGE NOT FOUND </p>
 </div>
 </template>
  
@@ -18,10 +18,13 @@
     color: #112d4e;
 }
 
+.ErrorPage > p {
+    margin: 5px;
+}
+
  @media only screen and (max-width: 1024px) {
     .ErrorPage {
         font-size: 10vw;
     }
  }
-
  </style>

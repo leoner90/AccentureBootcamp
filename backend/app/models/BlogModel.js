@@ -9,29 +9,27 @@ class BlogModel {
   constructor() {
     this.__connection = new db('blogs');
   }
- 
   //__ ADD NEW BLOG TO DB
   async AddNewBlogModel(req) {
     let imgFile = [];
     let EditingErr = [];
     if(req.files) {
-       imgFile = req.files.file;
-       //img check
-       let fileExtensionName = imgFile.mimetype.split('/').pop();
-       let pattern= new RegExp((/(gif|jpe?g|png|webp|bmp)$/i))
-       !pattern.test(fileExtensionName)  ? EditingErr.push("Wron File Type") : null;
-       imgFile.size > 4200000  ? EditingErr.push("File is tooooo big max 4mb") : null;
+      imgFile = req.files.file;
+      //img check
+      let fileExtensionName = imgFile.mimetype.split('/').pop();
+      let pattern= new RegExp((/(gif|jpe?g|png|webp|bmp)$/i))
+      !pattern.test(fileExtensionName)  ? EditingErr.push("Wron File Type") : null;
+      imgFile.size > 4200000  ? EditingErr.push("File is tooooo big max 4mb") : null;
     } else {
       imgFile.name = "default.png";
     }
     //fields check
-    let newBlog = JSON.parse(req.body.file2);
+    let newBlog = JSON.parse(req.body.NewBlogContent);
     newBlog.BlogHeader.length > 100 ? EditingErr.push("Header Max lenght 100 simbols") : null;
     newBlog.BlogBody.length > 65535 ? EditingErr.push("TEXT MAX 65,535 simbols") : null;
     if ( newBlog.BlogBody.length == 0  || newBlog.BlogHeader.length == 0) {
       EditingErr.push("No Blank Fields")
     }
-    
     // IF NO ERRORS -> ATTEMPT TO SAVE NEW BLOG
     if(EditingErr.length == 0){
       if(req.files) {
@@ -39,38 +37,38 @@ class BlogModel {
           if (err) {console.log(err)}
         });
       }
-  
       newBlog.date  = new Date().toLocaleDateString();
       newBlog.creatorId = req.session.userId;
       await this.__connection.createBlog(newBlog, imgFile);
-      return ["Success msg"];
+      return ["YOUR BLOG ADDED SUCCESSFULLY"];
     } else {
       return EditingErr;
     }
   }
+  async UserBlogsModel(req){
+    let id = req.session.userId;
+    let result = await this.__connection.getUserPosts('Creator_Id', id,);
+    if (result) {
+      let fs = require('fs');
+      for(let i = 0; i < result.length ; i++) {
+        const bitmap = fs.readFileSync(`${__dirname}/../../${result[i].BlogImg}`);
+        const base64 = new Buffer.from(bitmap).toString("base64");
+        let obj = {data: base64}
+        result[i].img = obj;
+      }
+      return result;
+    } else {
+      return false;
+    }
+  }
 
-  //Get All blogs  if userPosts == true , then return only this user posts using his ID
+  //Get All blogs 
   async GetBlogsModel(req){
     let PostLimit = req.body.limit;
     let limitStart = req.body.limitStart
     let ASCorDESC = req.body.ASCorDESC
-    if(req.body.UserPosts){
-      let id = req.session.userId;
-      let result = await this.__connection.getUserPostByID('Creator_Id', id,);
-      if (result) {
-        let fs = require('fs');
-        for(let i = 0; i < result.rows.length ; i++) {
-          const bitmap = fs.readFileSync(`${__dirname}/../../${result.rows[i].BlogImg}`);
-          const base64 = new Buffer.from(bitmap).toString("base64");
-          let obj = {data: base64}
-          result.rows[i].img = obj;
-        }
-        return result;
-      } else {
-        return false;
-      }
-    } else {
-      let result = await this.__connection.getAll(limitStart,PostLimit,ASCorDESC);
+    let result = await this.__connection.getAll(limitStart,PostLimit,ASCorDESC);
+    if(result.rows.length != 0) {
       let fs = require('fs');
       for(let i = 0; i < result.rows.length ; i++) {
         const bitmap = fs.readFileSync(`${__dirname}/../../${result.rows[i].BlogImg}`);
@@ -78,16 +76,18 @@ class BlogModel {
         let obj = {data: base64}
         result.rows[i].img = obj;
       }
-
       return result;
-    } 
+    } else {
+      return result;
+    }
+    
   }
 
-  // GET LAST BLOG FROM DB FOR HOME PAGE
-  async GetLastBlogsModel(req) {
-    let PostLimit = req.body.limit;
-    return await this.__connection.getAll(PostLimit)
-  }
+  // // GET LAST BLOG FROM DB FOR HOME PAGE
+  // async GetLastBlogsModel(req) {
+  //   let PostLimit = req.body.limit;
+  //   return await this.__connection.getAll(PostLimit)
+  // }
 
   //DELETE BLOG BY ID
   async DeletePostModel(req){
@@ -100,9 +100,28 @@ class BlogModel {
     }    
   }
 
-  //Get Blogs By id
+  //GET BLOG FOR EDIING AND CHECK DOES USER HAVE RIGHTS TO DO SO
+  async GetBlogToEditModel(req){
+    let Userid = req.session.userId;
+    let postToEdit = await this.__connection.getByKey('id_blogs' , req.body.id );
+    if (postToEdit.length > 0) {
+      if(postToEdit[0].Creator_Id == Userid) {
+        let result = await this.__connection.getPostByID( 'id_blogs' , req.body.id);
+        const bitmap = fs.readFileSync(`${__dirname}/../../${result[0].BlogImg}`);
+        const base64 = new Buffer.from(bitmap).toString("base64");
+        result[0].BlogImg = base64;
+        return result;
+      } else {
+        return false
+      }
+    } else {
+      return false
+    } 
+  }
+
+  //Get Blogs By id FOR SINGLE PAGE
   async GetBlogByIdModel(req){
-    let result = await this.__connection.getByKey( 'id_blogs' , req.body.id);
+    let result = await this.__connection.getPostByID( 'id_blogs' , req.body.id);
     if (result.length > 0) {
       const bitmap = fs.readFileSync(`${__dirname}/../../${result[0].BlogImg}`);
       const base64 = new Buffer.from(bitmap).toString("base64");
@@ -118,7 +137,7 @@ class BlogModel {
     let imgFile = [];
     let EditingErr = [];
     //fields check
-    let ChangedBlog = JSON.parse(req.body.file2);
+    let ChangedBlog = JSON.parse(req.body.NewBlogContent);
     ChangedBlog.BlogHeader.length > 100 ? EditingErr.push("Header Max lenght 100 simbols") : null;
     ChangedBlog.BlogBody.length > 65535 ? EditingErr.push("TEXT MAX 65,535 simbols") : null;
     if ( ChangedBlog.BlogBody.length == 0  || ChangedBlog.BlogHeader.length == 0) {

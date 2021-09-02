@@ -10,13 +10,26 @@ const BlogController = require("../app/controllers/BlogController");
 const BlogCtrl = new BlogController();
 
 
+
+
+router.post('/getAllThisUserBlogs', async (req, res) => {
+   let result =  await BlogCtrl.UserBlogsController(req, res);
+   res.status(200).json(result)
+})
+
 // Get All BLOGS
-router.post('/getAllBlogs', async (req, res) => {
+router.post('/getAllBlogsByLimit', async (req, res) => {
    let result =  await BlogCtrl.GetBlogsController(req, res);
    res.status(200).json(result)
 })
 
-// Get BLOG BY ID (REDO)
+// Get BLOG BY ID
+router.post('/getBlogToEdit', async (req, res) => {
+   let result =  await BlogCtrl.GetBlogToEditController(req, res);
+   res.status(200).json(result)
+})
+
+// Get BLOG BY ID
 router.post('/getBlogByID', async (req, res) => {
    let result =  await BlogCtrl.GetBlogByIdController(req, res);
    res.status(200).json(result)
@@ -29,7 +42,7 @@ router.post('/saveBlog', async (req, res) => {
       let result =  await BlogCtrl.SaveBlogController(req, res);
       res.status(200).json(result)
    } else {
-      //TODO return error
+      res.status(404)
    }
 })
 
@@ -40,7 +53,7 @@ router.post("/deleteBlog", async function (req, res) {
       let result =  await BlogCtrl.DeletePostController(req, res);
       res.status(200).json(result)
    } else {
-      //TODO return error
+      res.status(404)
    }
 })
 
@@ -69,7 +82,7 @@ router.post("/AddBlog", async function  (req, res) {
       let result = await BlogCtrl.AddNewBlogController(req, res);
       res.status(200).json(result)
    } else {
-      //TODO return error
+      res.status(404)
    }
 })
 

@@ -9,9 +9,16 @@ class BlogController {
   async GetBlogsController(req, res) {
     return await BlogModel.GetBlogsModel(req);
   }
+  async UserBlogsController(req, res)  {
+    return await BlogModel.UserBlogsModel(req);
+  }
   //GET LAST 3 BLOGS  FOR HOME PAGE
   async GetLastBlogsController(req, res) {
     return await BlogModel.GetLastBlogsModel(req);
+  }
+  //GET BLOGS TO EDIT 
+  async GetBlogToEditController(req, res) {
+    return await BlogModel.GetBlogToEditModel(req);
   }
   //GET BLOGS BY ID  
   async GetBlogByIdController(req, res) {

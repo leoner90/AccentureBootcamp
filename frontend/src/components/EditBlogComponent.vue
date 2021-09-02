@@ -2,35 +2,39 @@
  <!-- Get object as a props and displays it -->
 <template>
 <div style="width: 100%; margin: 0 auto; text-align: center;">
-<h2 class="page-header">EDIT BLOG #</h2>
-  <div class="page-wrapper">
+  
+  <div class="page-wrapper" v-if="!error">
+  <h2 class="page-header">EDIT BLOG # {{id}}</h2>
       <img :src="img" id="Img"/>
-      <div style="text-align: left; width: 60%; margin: 0 auto;">
-        <input type="file" @change="onFileChange" accept="image/png, image/jpeg, image/gif, image/jpg, image/webp, image/bmp"/>
-      </div>
       <div class="error" v-for="error of EditingErr" :key="error.i" >
           {{error}}
       </div>
-        <div>
-         <input class="EditBlogHeaderInput" name="header" type="text" :value="BlogHeader" required
+      <div style="text-align: left; width: 60%; margin: 0 auto;">
+        <input type="file" @change="onFileChange" accept="image/png, image/jpeg, image/gif, image/jpg, image/webp, image/bmp"/>
+      </div>
+      <div>
+          <input class="EditBlogHeaderInput" name="header" type="text" :value="BlogHeader" required
             maxlength="100"
             @input='$emit("update:BlogHeader", $event.target.value)'
           />
 
-         <textarea class="EditBlogBodyInput" name="body" type="text" :value="BlogBody" required
+          <textarea class="EditBlogBodyInput" name="body" type="text" :value="BlogBody" required
             maxlength="65535"
             @input='$emit("update:BlogBody", $event.target.value)'
           />
-        </div>
+      </div>
        <button class="Save-changes-btn" @click="saveChanges"> SAVE CHANGES </button>
-    </div>
-    </div>
+  </div>
+  <div style="color:red" v-else>
+    {{error}}
+  </div>
+</div>
 </template>
 
 <script>
 
 export default { 
-  props:['BlogBody' , 'BlogHeader','error','saveChanges','onFileChange','img','EditingErr'] ,    
+  props:['BlogBody' , 'BlogHeader', 'error' ,'saveChanges','onFileChange','img','EditingErr', 'id'] ,    
   data(){
     return {
       toggle: true,
